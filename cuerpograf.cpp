@@ -40,3 +40,8 @@ void Cuerpograf::Set_pos()
 {
     setPos(cuer->getPx(),cuer->getPy());
 }
+
+void Cuerpograf::setPicture(const QString &value)
+{
+    picture = value;
+}

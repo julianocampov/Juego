@@ -3,5 +3,7 @@
         <file>carro_rojo.png</file>
         <file>bola_png.png</file>
         <file>fondo.jpg</file>
+        <file>bus.png</file>
+        <file>apo.png</file>
     </qresource>
 </RCC>

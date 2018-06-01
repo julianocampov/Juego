@@ -11,7 +11,7 @@ juego::juego(QWidget *parent) :
     ui->setupUi(this);
     scene = new QGraphicsScene(X, Y, W, H);
     //scene->setSceneRect(0,0,1000,500);
-    cargraf = new Cuerpograf(0,0,0,0, picture = ":/carro_rojo.png", 150, 150);
+    cargraf = new Cuerpograf(0,0,0,0, picture = ":/carro_rojo.png", 100, 55);
 
     // TIMERS**
     int m = 10;
@@ -27,12 +27,17 @@ juego::juego(QWidget *parent) :
     timer_bol->start(600);
     connect(timer_bol,SIGNAL(timeout()),this,SLOT(bolas()));
 
+    timer_bus = new QTimer();
+    timer_bus->start(3000);
+    connect(timer_bus,SIGNAL(timeout()),this,SLOT(bus()));
+
+
     // FIN TIMERS**
 
     ui->graphicsView->setScene(scene);
-    ui->graphicsView->setBackgroundBrush(QBrush(QImage(":/fondo.jpg")));
+    ui->graphicsView->setBackgroundBrush(QBrush(QImage(":/apo.png")));
 
-    cargraf->getCuerpo()->setValores(0,400);
+    cargraf->getCuerpo()->setValores(0,450);
     cargraf->Set_pos();
     scene->addItem(cargraf);
     scene->setFocusItem(cargraf);
@@ -40,42 +45,106 @@ juego::juego(QWidget *parent) :
     srand(time(NULL));
 }
 
-juego::~juego()
-{
-    delete ui;
-}
 
 void juego::keyPressEvent(QKeyEvent *event)
 {
-    if (event->key()==Qt::Key_D){
-
+    if (event->key()==Qt::Key_D)
+    {
         cargraf->getCuerpo()->aceleracion();
-
     }
 
-    if (event->key() == Qt::Key_W && cargraf->getCuerpo()->getPy() == 400){
-
-        cargraf->getCuerpo()->setVy(-100);
+    if (event->key() == Qt::Key_W && cargraf->getCuerpo()->getPy() == 450)
+    {
+        cargraf->getCuerpo()->setVy(-130);
     }
 
-    if(event->key()==Qt::Key_A){
-
+    if(event->key()==Qt::Key_A)
+    {
         cargraf->getCuerpo()->setVx(cargraf->getCuerpo()->getVx()*0.5);
-
     }
 }
 
 void juego::keyReleaseEvent(QKeyEvent *event)
 {
-    if (event->isAutoRepeat()){
+    if (event->isAutoRepeat())
+    {
         return;
     }
 
     else if (event->key() == Qt::Key_D)
-     {
+    {
         flag = true;
     }
 }
+
+//TIMER_MOV **
+
+void juego::caer()
+{
+    //BOLAS **
+    for (int i = 0; i < _bolas.size(); i++)
+    {
+        _bolas[i]->getCuerpo()->velocidad_Y();
+        _bolas[i]->Set_pos();
+    }
+
+    //COLISIÓN **
+    for (int j = 0; j < _bolas.size(); j++)
+    {
+        if(cargraf->collidesWithItem(_bolas[j]))
+        {
+            //_bolas[j]->setPicture(":/carro_rojo.png");
+            scene->removeItem(_bolas[j]);
+        }
+    }
+
+    //BUSES **
+    for (int X = 0; X < _bus.size(); X++)
+    {
+        _bus[X]->getCuerpo()->velocidad_X();
+        _bus[X]->Set_pos();
+    }
+
+    //COLISIÓN **
+    for(int Y = 0 ; Y < _bus.size() ; Y++){
+        if(_bus[Y]->collidesWithItem(cargraf)){
+            scene->removeItem(_bus[Y]);
+        }
+    }
+
+    //REMOVE PASADA LA ESCENA **
+    for(int k=0 ; k < _bus.size() ; k++){
+        if(_bus[k]->getCuerpo()->getPx()<=-20){
+            scene->removeItem(_bus[k]);
+        }
+    }
+}
+
+//TIMER_BOL **
+
+void juego::bolas()
+{
+    float pos = 400 + rand()% (1000-400);
+
+    _bolas.append(new Cuerpograf(0,0,0,0, picture = ":/bola_png.png", 90, 90));
+    _bolas[cont_bola]->getCuerpo()->setValores(cargraf->getCuerpo()->getPx()+pos, 0);
+    _bolas[cont_bola]->Set_pos();
+
+    scene->addItem(_bolas[cont_bola]);
+    cont_bola++;
+}
+
+void juego::bus()
+{
+     float pos = 400 + rand()% (1000-400);
+    _bus.append(new Cuerpograf(0,0,0,0, picture = ":/bus.png", 200, 150));
+    _bus[cont_bus]->getCuerpo()->setValores(cargraf->getCuerpo()->getPx()+500+pos, 390);
+    _bus[cont_bus]->Set_pos();
+    scene->addItem(_bus[cont_bus]);
+    cont_bus++;
+}
+
+//TIMER **
 
 void juego::move()
 {
@@ -89,29 +158,7 @@ void juego::move()
     cargraf->Set_pos();
 }
 
-void juego::caer()
+juego::~juego()
 {
-    for (int i = 0; i < _bolas.size(); i++){
-        _bolas[i]->getCuerpo()->velocidad_Y();
-        _bolas[i]->Set_pos();
-    }
-    for (int j = 0;j<_bolas.size();j++){
-        if(cargraf->collidesWithItem(_bolas[j])){
-            scene->removeItem(_bolas[j]);
-        }
-    }
-
-}
-
-
-void juego::bolas()
-{
-    float pos = 400 + rand()% (1000-400);
-
-    _bolas.append(new Cuerpograf(0,0,0,0,picture = ":/bola_png.png", 90, 90));
-    _bolas[cont]->getCuerpo()->setValores(cargraf->getCuerpo()->getPx()+pos, 0);
-    _bolas[cont]->Set_pos();
-
-    scene->addItem(_bolas[cont]);
-    cont++;
+    delete ui;
 }

@@ -20,6 +20,8 @@ public:
     Cuerpo * getCuerpo();
     void Set_pos();
 
+    void setPicture(const QString &value);
+
 private:
 
     Cuerpo *cuer;

@@ -65,11 +65,6 @@ void Cuerpo::setValores(float x, float y)
     Py = y;
 }
 
-void Cuerpo::setneg(float value)
-{
-    Px -= value;
-    Py -= value;
-}
 
 void Cuerpo::acelerado()
 {
@@ -78,9 +73,9 @@ void Cuerpo::acelerado()
     Px = Px + Vx*dt;
     Py = Py + Vy*dt + g*pow(dt,2)*0.5;
 
-    if (Py>=400)
+    if (Py >= 450)
     {
-        Py = 400;
+        Py = 450;
     }
 }
 
@@ -104,7 +99,12 @@ void Cuerpo::velocidad_Y()
 {
     Vy = Vy + g*dt;
     Py = Py + Vy*dt + 2*pow(dt,2)*0.5;
+}
 
+void Cuerpo::velocidad_X()
+{
+    Vx = Vx + 20*dt;
+    Px = Px + (-Vx)*dt + 2*pow(dt,2)*0.5;
 }
 
 

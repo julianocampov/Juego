@@ -31,13 +31,14 @@ public:
     void setVy(float value);
     float getA() const;
     void setA(float value);
+
     void setValores(float x,float y);
-    void setneg(float);
 
     void acelerado();
     void velocidad();
     void aceleracion();
     void velocidad_Y();
+    void velocidad_X();
 };
 
 #endif // CUERPO_H

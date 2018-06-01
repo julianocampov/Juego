@@ -24,6 +24,7 @@ class juego : public QWidget
 
 public slots:
 
+    void bus();
     void move();
     void caer();
     void bolas();
@@ -39,7 +40,8 @@ private:
 
     Ui::juego *ui;
 
-    int cont = 0;
+    int cont_bola = 0;
+    int cont_bus = 0;
     bool hola = false;
 
     float contAC = 0;
@@ -52,10 +54,12 @@ private:
     QTimer * timer;                 //Timer oficial.
     QTimer * timer_mov;             //Timer parabolico.
     QTimer * timer_bol;             //Timer generar bolas cayendo.
+    QTimer * timer_bus;
 
     QString picture;                //Seleccionar imagenes respectivas.
     Cuerpograf *cargraf;            //Carro principal.
     QGraphicsScene * scene;         //Escena;
+    QList < Cuerpograf * > _bus;    //Buses moviendose, obstaculos.
     QList < Cuerpograf * > _bolas;  //Bolas cayendo, obstaculos.
 
 };
