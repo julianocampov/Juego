@@ -73,9 +73,9 @@ void Cuerpo::acelerado()
     Px = Px + Vx*dt;
     Py = Py + Vy*dt + g*pow(dt,2)*0.5;
 
-    if (Py >= 450)
+    if (Py >= 440)
     {
-        Py = 450;
+        Py = 440;
     }
 }
 

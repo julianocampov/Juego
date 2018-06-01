@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QGraphicsScene>
 #include <QGraphicsItem>
+
 #include "juego.h"
 
 
@@ -20,9 +21,11 @@ public:
     ~menu();
 
 private slots:
+
     void on_pushButton_clicked();
 
 private:
+
     Ui::menu *ui;
     juego *escena;
 };

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1066</width>
-    <height>610</height>
+    <height>617</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,6 +20,16 @@
      <y>30</y>
      <width>1006</width>
      <height>507</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLCDNumber" name="puntos">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>550</y>
+     <width>291</width>
+     <height>61</height>
     </rect>
    </property>
   </widget>

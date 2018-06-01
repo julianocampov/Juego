@@ -13,8 +13,8 @@ int main(int argc, char *argv[])
     plash->show();
     ingreso w;
 
-    QTimer::singleShot(2000, plash, SLOT(close()));
-    QTimer::singleShot(2000, &w, SLOT(show()));
+    QTimer::singleShot(1000, plash, SLOT(close()));
+    QTimer::singleShot(1000, &w, SLOT(show()));
 
     return a.exec();
 }
