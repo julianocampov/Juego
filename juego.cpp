@@ -11,10 +11,10 @@ juego::juego(QWidget *parent) :
 
     ui->setupUi(this);
     scene = new QGraphicsScene(X, Y, W, H);
-    //scene->setSceneRect(0,0,1000,500);
     cargraf = new Cuerpograf(0,0,0,0, picture = ":/carro_rojo.png", 100, 55);
 
     // TIMERS**
+
     int m = 10;
     timer = new QTimer();
     timer->start(m);
@@ -25,24 +25,29 @@ juego::juego(QWidget *parent) :
     connect(timer_mov,SIGNAL(timeout()),this,SLOT(caer()));
 
     timer_bol= new QTimer();
-    timer_bol->start(600);
+    timer_bol->start(1200);
     connect(timer_bol,SIGNAL(timeout()),this,SLOT(bolas()));
 
     timer_bus = new QTimer();
     timer_bus->start(3000);
     connect(timer_bus,SIGNAL(timeout()),this,SLOT(bus()));
 
+    timer_score = new QTimer();
+    timer_score->start(100);
+    connect(timer_score,SIGNAL(timeout()),this,SLOT(sumar_score()));
 
     // FIN TIMERS**
 
     ui->graphicsView->setScene(scene);
-    ui->graphicsView->setBackgroundBrush(QBrush(QImage(":/fondo.jpg")));
+    ui->graphicsView->setStyleSheet("background : transparent");
+    ui->graphicsView->setBackgroundBrush(QBrush(QImage(":/carretera.png")));
 
     cargraf->getCuerpo()->setValores(0,440);
     cargraf->Set_pos();
     scene->addItem(cargraf);
     scene->setFocusItem(cargraf);
 
+    ui->vidas->display(vida);
     srand(time(NULL));
 }
 
@@ -96,8 +101,20 @@ void juego::caer()
     {
         if(cargraf->collidesWithItem(_bolas.at(j)))
         {
-            //_bolas[j]->setPicture(":/carro_rojo.png");
             scene->removeItem(_bolas.at(j));
+            _bolas.removeOne(_bolas.at(j));
+            _bolas.append(new Cuerpograf(0,0,0,0, picture = ":/bola.png",40,40));
+            vida--;
+            ui->vidas->display(vida);
+        }
+    }
+
+    //REMUEVE DE LA ESCENA **
+    for (int H = 0; H < _bolas.size(); H++)
+    {
+        if(_bolas.at(H)->getCuerpo()->getPy() > 550)
+        {
+            scene->removeItem(_bolas.at(H));
         }
     }
 
@@ -109,17 +126,24 @@ void juego::caer()
     }
 
     //COLISIÓN BUSES **
-    for(int Y = 0 ; Y < _bus.size() ; Y++){
-        if(_bus.at(Y)->collidesWithItem(cargraf)){
+    for(int Y = 0 ; Y < _bus.size() ; Y++)
+    {
+        if(cargraf->collidesWithItem(_bus.at(Y)))
+        {
             scene->removeItem(_bus.at(Y));
-            flagD = true;
+            _bus.removeOne(_bus.at(Y));
+            _bus.append(new Cuerpograf(cargraf->getCuerpo()->getPx()+600, 600,0,0, picture = ":/bus.png", 180, 100));
+            vida--;
+            ui->vidas->display(vida);
         }
     }
 
-    //REMOVE PASADA LA ESCENA **
-    for(int k=0 ; k < _bus.size() ; k++){
-        if(_bus[k]->getCuerpo()->getPx()<=-20){
-            scene->removeItem(_bus[k]);
+    //REMUEVE PASADA LA ESCENA **
+    for(int k=0 ; k < _bus.size() ; k++)
+    {
+        if(_bus[k]->getCuerpo()->getPx()<=-20)
+        {
+            scene->removeItem(_bus.at(k));
         }
     }
 }
@@ -130,16 +154,15 @@ void juego::bolas()
 {
     float pos = 400 + rand()% (1000-400);
 
-    _bolas.append(new Cuerpograf(0,0,0,0, picture = ":/bola_png.png", 40, 40));
+    _bolas.append(new Cuerpograf(0,0,0,0, picture = ":/bola.png", 40, 40));
     _bolas[cont_bola]->getCuerpo()->setValores(cargraf->getCuerpo()->getPx()+pos, 0);
     _bolas[cont_bola]->Set_pos();
-
-    vida ++;
-    ui->puntos->display(vida);
 
     scene->addItem(_bolas[cont_bola]);
     cont_bola++;
 }
+
+
 
 void juego::bus()
 {
@@ -164,7 +187,7 @@ void juego::move()
 
     if (cargraf->getCuerpo()->getVx() < 1) flag = false;
 
-    if (flagD)
+    if (vida == 0)
     {
         timer->stop();
         timer_bol->stop();
@@ -172,6 +195,7 @@ void juego::move()
         timer_mov->stop();
 
         menu *_menu = new menu();
+        _menu->setPtos_1(vida);
         _menu->show();
         close();
     }
@@ -179,6 +203,14 @@ void juego::move()
     scene->setSceneRect(cargraf->getCuerpo()->getPx()-50, 0, 1000, 500);
     cargraf->getCuerpo()->acelerado();
     cargraf->Set_pos();
+}
+
+//TIMER SCORE**
+
+void juego::sumar_score()
+{
+    score++;
+    ui->puntos->display(score);
 }
 
 void juego::volver()

@@ -15,7 +15,21 @@ menu::~menu()
 
 void menu::on_pushButton_clicked()
 {
-    escena = new juego();
-    escena->show();
-    this->close();
+    if (cont < 2)
+    {
+        cont++;
+        escena = new juego();
+        escena->show();
+        this->close();
+    }
+}
+
+void menu::setPtos_2(int value)
+{
+    ptos_2 = value;
+}
+
+void menu::setPtos_1(int value)
+{
+    ptos_1 = value;
 }

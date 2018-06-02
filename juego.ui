@@ -23,17 +23,52 @@
     </rect>
    </property>
   </widget>
+  <widget class="QLCDNumber" name="vidas">
+   <property name="geometry">
+    <rect>
+     <x>380</x>
+     <y>550</y>
+     <width>271</width>
+     <height>61</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>30</y>
+     <width>1006</width>
+     <height>481</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="imagen.qrc">:/apo.jpg</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
   <widget class="QLCDNumber" name="puntos">
    <property name="geometry">
     <rect>
      <x>30</x>
      <y>550</y>
-     <width>291</width>
+     <width>321</width>
      <height>61</height>
     </rect>
    </property>
   </widget>
+  <zorder>label</zorder>
+  <zorder>vidas</zorder>
+  <zorder>graphicsView</zorder>
+  <zorder>puntos</zorder>
  </widget>
- <resources/>
+ <resources>
+  <include location="imagen.qrc"/>
+ </resources>
  <connections/>
 </ui>

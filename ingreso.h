@@ -5,6 +5,7 @@
 #include <QGraphicsScene>
 
 #include "menu.h"
+#include <QFile>
 
 namespace Ui {
 class ingreso;
@@ -25,7 +26,7 @@ private slots:
 private:
 
     Ui::ingreso *ui;
-    QString intento, rpta = "hola";
+    QString intento, rpta = "d";
 
     menu *menu_juego;
 

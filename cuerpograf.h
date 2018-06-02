@@ -6,6 +6,7 @@
 #include <QPainter>
 #include <QGraphicsScene>
 #include <QGraphicsPixmapItem>
+
 #include "cuerpo.h"
 
 class Cuerpograf : public QGraphicsItem,public QObject
@@ -26,6 +27,7 @@ private:
 
     Cuerpo *cuer;
     QString picture;
+
     float W, H;
     int cont = 0;
 

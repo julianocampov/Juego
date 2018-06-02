@@ -27,6 +27,7 @@ public slots:
     void move();
     void caer();
     void bolas();
+    void sumar_score();
 
 public:
 
@@ -46,20 +47,23 @@ private:
 
     int cont_bola = 0;
     int cont_bus = 0;
-    int vida = 0;
+    int score = 0;
+    int vida = 5;
 
-    float contAC = 0;
     float contREV = 0;
+    float contAC = 0;
     float X,Y,W,H;
 
     bool flag = false;
-    bool flagD = false;
+    bool flagBUS = true;
+    bool flagBOLA = true;
 
 
     QTimer * timer;                 //Timer oficial.
     QTimer * timer_mov;             //Timer parabolico.
     QTimer * timer_bol;             //Timer generar bolas cayendo.
-    QTimer * timer_bus;
+    QTimer * timer_bus;             //Timer buses.
+    QTimer * timer_score;
 
     QString picture;                //Seleccionar imagenes respectivas.
     Cuerpograf *cargraf;            //Carro principal.

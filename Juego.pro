@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -29,19 +29,22 @@ SOURCES += \
     mainwin.cpp \
     menu.cpp \
     juego.cpp \
-    ingreso.cpp
+    ingreso.cpp \
+    modo.cpp
 
 HEADERS += \
     cuerpo.h \
     cuerpograf.h \
     menu.h \
     juego.h \
-    ingreso.h
+    ingreso.h \
+    modo.h
 
 FORMS += \
     menu.ui \
     juego.ui \
-    ingreso.ui
+    ingreso.ui \
+    modo.ui
 
 RESOURCES += \
     imagen.qrc
