@@ -8,11 +8,6 @@ ingreso::ingreso(QWidget *parent) :
     ui->setupUi(this);
     ui->label->setText("BIENVENIDO AL HIMALAYA");
     menu_juego = new menu();
-    QFile file("hola.txt");
-    file.open(QIODevice::WriteOnly);
-    QTextStream out(&file);
-    out<<"bienvenido";
-
 }
 
 ingreso::~ingreso()
@@ -25,11 +20,18 @@ void ingreso::on_pushButton_clicked()
     intento = ui->Res->text();
     if (intento == rpta)
     {
-        QFile file("hola.txt");
-        file.open(QIODevice::WriteOnly);
-        QTextStream out(&file);
-        out<<intento;
+        menu_juego->setModo(_modo);
         menu_juego->show();
         close();
     }
+}
+
+int ingreso::modo() const
+{
+    return _modo;
+}
+
+void ingreso::setModo(int modo)
+{
+    _modo = modo;
 }

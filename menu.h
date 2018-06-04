@@ -7,7 +7,6 @@
 
 #include "juego.h"
 
-
 namespace Ui {
 class menu;
 }
@@ -26,18 +25,23 @@ public:
 
     void setPtos_2(int value);
 
+    int getModo() const;
+    void setModo(int value);
+
 private slots:
 
     void on_pushButton_clicked();
 
+    void on_pushButton_2_clicked();
+
+    void on_pushButton_3_clicked();
+
 private:
 
     Ui::menu *ui;
-    juego *escena;
 
-    int ptos_1 = 0;
-    int ptos_2 = 0;
-    int cont = 0;
+    int modo = 0;
+
 
 };
 

@@ -45,9 +45,6 @@
    <property name="text">
     <string/>
    </property>
-   <property name="pixmap">
-    <pixmap resource="imagen.qrc">:/apo.jpg</pixmap>
-   </property>
    <property name="scaledContents">
     <bool>true</bool>
    </property>
@@ -67,8 +64,6 @@
   <zorder>graphicsView</zorder>
   <zorder>puntos</zorder>
  </widget>
- <resources>
-  <include location="imagen.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

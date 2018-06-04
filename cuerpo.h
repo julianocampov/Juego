@@ -32,7 +32,7 @@ public:
     float getA() const;
     void setA(float value);
 
-    void setValores(float x,float y);
+    void setValores(float x,float y, float _Vx, float _Vy);
 
     void acelerado();
     void velocidad();

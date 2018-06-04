@@ -8,28 +8,52 @@ menu::menu(QWidget *parent) :
     ui->setupUi(this);
 }
 
-menu::~menu()
-{
-    delete ui;
-}
 
 void menu::on_pushButton_clicked()
 {
-    if (cont < 2)
-    {
-        cont++;
-        escena = new juego();
-        escena->show();
-        this->close();
-    }
+    juego *escena = new juego();
+    escena->setNivel(1);
+    escena->timers();
+    escena->setControl(modo);
+    escena->show();
+
+    close();
 }
 
-void menu::setPtos_2(int value)
+void menu::on_pushButton_2_clicked()
 {
-    ptos_2 = value;
+    juego *escena = new juego();
+    escena->setNivel(2);
+    escena->timers();
+    escena->setControl(modo);
+    escena->show();
+
+    close();
+
 }
 
-void menu::setPtos_1(int value)
+void menu::on_pushButton_3_clicked()
 {
-    ptos_1 = value;
+    juego *escena = new juego();
+    escena->setNivel(3);
+    escena->timers();
+    escena->setControl(modo);
+    escena->show();
+
+    close();
+}
+
+int menu::getModo() const
+{
+    return modo;
+}
+
+void menu::setModo(int value)
+{
+    modo = value;
+}
+
+menu::~menu()
+{
+    delete ui;
 }

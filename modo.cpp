@@ -17,6 +17,15 @@ modo::~modo()
 void modo::on_uno_clicked()
 {
     ingreso *ing = new ingreso();
+    ing->setModo(1);
+    ing->show();
+    close();
+}
+
+void modo::on_dos_clicked()
+{
+    ingreso *ing = new ingreso();
+    ing->setModo(2);
     ing->show();
     close();
 }

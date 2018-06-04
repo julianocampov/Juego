@@ -59,10 +59,12 @@ Cuerpo::Cuerpo(float _Px, float _Py, float _Vx, float _Vy)
 
 }
 
-void Cuerpo::setValores(float x, float y)
+void Cuerpo::setValores(float x, float y, float _Vx, float _Vy)
 {
     Px = x;
     Py = y;
+    Vx = _Vx;
+    Vy = _Vy;
 }
 
 

@@ -15,13 +15,13 @@ public:
 
     Cuerpograf(float _Px,float _Py,float _Vx,float _Vy, QString _picture, float _W, float _H);
     ~Cuerpograf();
+
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
-    void pintar();
-    Cuerpo * getCuerpo();
-    void Set_pos();
 
+    Cuerpo * getCuerpo();
     void setPicture(const QString &value);
+    void set_pos();
 
 private:
 

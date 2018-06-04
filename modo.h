@@ -19,8 +19,10 @@ public:
 private slots:
 
     void on_uno_clicked();
+    void on_dos_clicked();
 
 private:
+
     Ui::modo *ui;
 
 };
