@@ -11,10 +11,14 @@ menu::menu(QWidget *parent) :
 
 void menu::on_pushButton_clicked()
 {
+
     juego *escena = new juego();
     escena->setNivel(1);
     escena->timers();
-    escena->setControl(modo);
+    escena->setControl(_modo);
+    escena->setCargar(cargar);
+    escena->cargar_partida();
+
     escena->show();
 
     close();
@@ -22,14 +26,17 @@ void menu::on_pushButton_clicked()
 
 void menu::on_pushButton_2_clicked()
 {
+
     juego *escena = new juego();
     escena->setNivel(2);
     escena->timers();
-    escena->setControl(modo);
+    escena->setControl(_modo);
+    escena->setCargar(cargar);
+    escena->cargar_partida();
+
     escena->show();
 
     close();
-
 }
 
 void menu::on_pushButton_3_clicked()
@@ -37,20 +44,36 @@ void menu::on_pushButton_3_clicked()
     juego *escena = new juego();
     escena->setNivel(3);
     escena->timers();
-    escena->setControl(modo);
+    escena->setControl(_modo);
+    escena->setCargar(cargar);
+    escena->cargar_partida();
+
     escena->show();
 
     close();
 }
 
-int menu::getModo() const
-{
-    return modo;
-}
-
 void menu::setModo(int value)
 {
-    modo = value;
+    _modo = value;
+}
+
+int menu::getModo() const
+{
+    return _modo;
+}
+
+void menu::on_pushButton_4_clicked()
+{
+    cargar = 1;
+}
+
+void menu::on_pushButton_5_clicked()
+{
+    modo *modo_new = new modo();
+    modo_new->show();
+
+    close();
 }
 
 menu::~menu()

@@ -1,6 +1,5 @@
 #include "modo.h"
 #include "ui_modo.h"
-#include "ingreso.h"
 
 modo::modo(QWidget *parent) :
     QWidget(parent),
@@ -9,14 +8,10 @@ modo::modo(QWidget *parent) :
     ui->setupUi(this);
 }
 
-modo::~modo()
-{
-    delete ui;
-}
 
 void modo::on_uno_clicked()
 {
-    ingreso *ing = new ingreso();
+    menu *ing = new menu();
     ing->setModo(1);
     ing->show();
     close();
@@ -24,8 +19,13 @@ void modo::on_uno_clicked()
 
 void modo::on_dos_clicked()
 {
-    ingreso *ing = new ingreso();
+    menu *ing = new menu();
     ing->setModo(2);
     ing->show();
     close();
+}
+
+modo::~modo()
+{
+    delete ui;
 }

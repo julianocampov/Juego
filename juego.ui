@@ -59,10 +59,24 @@
     </rect>
    </property>
   </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>700</x>
+     <y>560</y>
+     <width>331</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>SAVE</string>
+   </property>
+  </widget>
   <zorder>label</zorder>
   <zorder>vidas</zorder>
   <zorder>graphicsView</zorder>
   <zorder>puntos</zorder>
+  <zorder>pushButton</zorder>
  </widget>
  <resources/>
  <connections/>

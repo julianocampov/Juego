@@ -6,6 +6,7 @@
 #include <QGraphicsItem>
 
 #include "juego.h"
+#include "modo.h"
 
 namespace Ui {
 class menu;
@@ -36,11 +37,16 @@ private slots:
 
     void on_pushButton_3_clicked();
 
+    void on_pushButton_4_clicked();
+
+    void on_pushButton_5_clicked();
+
 private:
 
     Ui::menu *ui;
 
-    int modo = 0;
+    int _modo = 0;
+    int cargar = 0;
 
 
 };

@@ -1,18 +1,25 @@
 <RCC>
     <qresource prefix="/">
         <file>carro_rojo.png</file>
-        <file>fondo.jpg</file>
         <file>bus.png</file>
         <file>carretera.png</file>
-        <file>bola.png</file>
         <file>apo.jpg</file>
         <file>bola20.png</file>
         <file>fondo_2.jpg</file>
         <file>fondo3.jpg</file>
-        <file>carros_1.png</file>
+        <file>bosque_u.png</file>
+        <file>carro_1.png</file>
+        <file>carro_2.png</file>
+        <file>inicio.png</file>
+        <file>FondoUDEA.jpg</file>
+        <file>carro_2(1).png</file>
+        <file>carro_2(2).png</file>
+        <file>carro_2(3).png</file>
+        <file>rocap.png</file>
     </qresource>
     <qresource prefix="/s">
         <file>ace.mp3</file>
         <file>claxon.mp3</file>
+        <file>takeon.mp3</file>
     </qresource>
 </RCC>

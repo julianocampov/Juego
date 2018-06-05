@@ -10,50 +10,24 @@ juego::juego(QWidget *parent) :
     ui(new Ui::juego)
 
 {
-    QString line;
-
-    QFile file(RUTA_ARCHIVO);
-    file.open(QIODevice::ReadOnly);     //Abre el archiv en modo lectura
-    line = file.readLine();
-    file.close();
-
-    QList<QString> datos;
-
-    int n=0;
-
-    while(n>=0)
-    {
-        n = line.indexOf(" ");
-        if(n!=0)
-        {
-            datos.append(line.left(n));
-        }
-        line = line.remove(0,n+1);
-    }
-    n = 0;
 
     X=0, Y=0, W=1000, H=500;
 
     ui->setupUi(this);
     scene = new QGraphicsScene(X, Y, W, H);
 
-    if (datos.at(2).toInt() != 0)
-    {
-        cargraf = new Cuerpograf(datos.at(n++).toFloat(), datos.at(n++).toFloat(), 0, 0, picture = ":/carros_1.png", 100, 55);
-        vida = datos.at(n++).toInt();
-        score = datos.at(n++).toInt();
-    }
-    else
-    {
-        cargraf = new Cuerpograf(0, 440, 0, 0, picture = ":/carros_1.png", 100, 55);
-        vida = 5;
-        score = 0;
-    }
-
     //TIMERS **
 
+    timer_bol= new QTimer();
+    timer_bol->stop();
+    connect(timer_bol,SIGNAL(timeout()),this,SLOT(bolas()));
+
+    timer_bus = new QTimer();
+    timer_bus->stop();
+    connect(timer_bus,SIGNAL(timeout()),this,SLOT(bus()));
+
     timer = new QTimer();
-    timer->start(10);
+    timer->stop();
     connect(timer,SIGNAL(timeout()),this,SLOT(move()));
 
     timer_mov = new QTimer();
@@ -68,26 +42,25 @@ juego::juego(QWidget *parent) :
     timer_score->stop();
     connect(timer_score,SIGNAL(timeout()),this,SLOT(sumar_score()));
 
+    timer_images = new QTimer();
+    timer_images->start(10);
+    connect(timer_score,SIGNAL(timeout()),this,SLOT(imagen()));
+
     //FIN TIMERS **
 
     ui->graphicsView->setScene(scene);
     ui->graphicsView->setStyleSheet("background : transparent");
     ui->graphicsView->setBackgroundBrush(QBrush(QImage(":/carretera.png")));
 
-    cargraf->set_pos();
-    scene->addItem(cargraf);
-    scene->setFocusItem(cargraf);
-
-    ui->vidas->display(vida);
-    ui->puntos->display(score);
-
     acelerar = new QMediaPlayer(this);
     acelerar->setMedia(QUrl("qrc:/s/ace.mp3"));
 
     claxon = new QMediaPlayer(this);
     claxon->setMedia(QUrl("qrc:/s/claxon.mp3"));
+    claxon->setVolume(60);
 
-
+    son_fondo = new QMediaPlayer(this);
+    son_fondo->setMedia(QUrl("qrc:/s/takeon.mp3"));
 
     srand(time(NULL));
 }
@@ -99,16 +72,18 @@ void juego::keyPressEvent(QKeyEvent *event)
     {
         if(inicio)
         {
+            timer->start(10);
             timer_mov->start(30);
             timer_save->start(3000);
             timer_score->start(100);
             timer_bol->start(time1);
             timer_bus->start(time2);
+            son_fondo->play();
 
             inicio = false;
         }
 
-        acelerar->play();
+        //acelerar->play();
 
         cargraf->getCuerpo()->aceleracion();
     }
@@ -145,7 +120,7 @@ void juego::keyReleaseEvent(QKeyEvent *event)
 }
 
 
-//TIMER_MOV **
+//TIMER_MOV / CAER **
 
 void juego::caer()
 {
@@ -170,7 +145,7 @@ void juego::caer()
         }
     }
 
-    //REMUEVE DE LA ESCENA **
+    //REMUEVE DE LA ESCENA BOLAS **
     for (int H = 0; H < _bolas.size(); H++)
     {
         if(_bolas.at(H)->getCuerpo()->getPy() > 550)
@@ -199,7 +174,7 @@ void juego::caer()
         }
     }
 
-    //REMUEVE PASADA LA ESCENA **
+    //REMUEVE DE LA ESCENA BUSES **
     for(int k=0 ; k < _bus.size() ; k++)
     {
         if(_bus.at(k)->getCuerpo()->getPx()<=-20)
@@ -209,29 +184,39 @@ void juego::caer()
     }
 }
 
-void juego::save()
-{
-    QFile file(RUTA_ARCHIVO);
-    file.open(QIODevice::WriteOnly);
-    QTextStream out(&file);
-    out<<cargraf->getCuerpo()->getPy()<<" "<<cargraf->getCuerpo()->getPx()<<" "<<vida<<" "<<score;
-
-    file.close();
-}
-
-//TIMER_BOL **
+//GENERAR BOLAS**
 
 void juego::bolas()
 {
     float pos = 400 + rand()% (1000-400);
 
-    _bolas.append(new Cuerpograf(0,0,0,0, picture = ":/bola.png", 40, 40));
+    _bolas.append(new Cuerpograf(0,0,0,0, picture = ":/rocap.png", 60, 60));
     _bolas.last()->getCuerpo()->setValores(cargraf->getCuerpo()->getPx()+pos, 0, 0, 0);
     _bolas.last()->set_pos();
 
     scene->addItem(_bolas.last());
 }
 
+void juego::imagen()
+{
+    if (cont_imagen >= 0)
+    {
+        if(cont_imagen == 3) cargraf->setPicture(":/carro_2.png");
+
+        if(cont_imagen == 2) cargraf->setPicture(":/carro_2(1).png");
+
+        if(cont_imagen == 1) cargraf->setPicture(":/carro_2(2).png");
+
+        if(cont_imagen == 0) cargraf->setPicture(":/carro_2(3).png");
+    }
+    else cont_imagen = 3;
+
+    cont_imagen--;
+
+}
+
+
+//GENERAR BUSES **
 
 void juego::bus()
 {
@@ -262,7 +247,7 @@ void juego::move()
         if(control == 2)
         {
             cargraf->getCuerpo()->setValores(0, 440, 0, 0);
-
+            cargraf->setPicture(picture = ":/carro_1.png");
             cargraf->set_pos();
 
             vida = 5;
@@ -271,41 +256,20 @@ void juego::move()
             score = 0;
             ui->puntos->display(score);
 
-            _bus.clear();
-            _bolas.clear();
-
-            acelerar->stop();
-            timer_bol->stop();
-            timer_bus->stop();
-            timer_mov->stop();
-            timer_save->stop();
-            timer_score->stop();
+            stop_timers();
 
             puntaje_jugador = score;
-
             inicio = true;
-
             control++;
         }
 
         else
         {
-            timer->stop();
-            acelerar->stop();
-            timer_bol->stop();
-            timer_bus->stop();
-            timer_mov->stop();
-            timer_save->stop();
-            timer_score->stop();
-
-            _bus.clear();
-            _bolas.clear();
-
+            stop_timers();
             QString texto = "";
 
             if (control == 3)
             {
-
                 if(puntaje_jugador > score)
                 {
                     texto = "El ganador fue el jugador 1, puntaje "+QString::number(puntaje_jugador);
@@ -314,7 +278,6 @@ void juego::move()
                 {
                     texto = "El ganador fue el jugador 2, puntaje "+QString::number(score);
                 }
-
             }
             else
             {
@@ -329,11 +292,7 @@ void juego::move()
             caja.setDefaultButton(QMessageBox::Close);
             caja.exec();
 
-            control = 2;
-
-            menu *_menu = new menu();
-            _menu->show();
-            close();
+            volver();
         }
     }
 
@@ -342,49 +301,13 @@ void juego::move()
     cargraf->set_pos();
 }
 
-//TIMER SCORE**
+//CARGAR PARTIDA **
 
-void juego::sumar_score()
+void juego::cargar_partida()
 {
-    score++;
-    ui->puntos->display(score);
-}
-
-void juego::volver()
-{
-    menu * _menu = new menu;
-    _menu->show();
-    this->close();
-}
-
-
-//TIMERS **
-
-void juego::timers()
-{
-    QString RUTA = "";
-
-    if (nivel == 1)
-    {
-        RUTA = "nivel_1.txt";
-        QPixmap string (":/fondo_2.jpg");
-        ui->label->setPixmap(string);
-    }
-
-    if (nivel == 2)
-    {
-        RUTA = "nivel_2.txt";
-        QPixmap string (":/fondo3.jpg");
-        ui->label->setPixmap(string);
-    }
-
-    if (nivel == 3)
-    {
-        RUTA = "nivel_3.txt";
-    }
-
     QString line;
-    QFile file(RUTA);
+
+    QFile file(RUTA_ARCHIVO);
     file.open(QIODevice::ReadOnly);     //Abre el archiv en modo lectura
     line = file.readLine();
     file.close();
@@ -405,15 +328,153 @@ void juego::timers()
 
     n = 0;
 
-    timer_bol= new QTimer();
-    time1 = datos.at(n++).toInt();
-    timer_bol->stop();
-    connect(timer_bol,SIGNAL(timeout()),this,SLOT(bolas()));
+    if (datos.at(2).toInt() != 0 && cargar == 1)
+    {
+        n++;
+        cargraf = new Cuerpograf(0, datos.at(n++).toFloat(), 0, 0, picture = ":/carro_2.png", 130, 55);
+        vida = datos.at(n++).toInt();
+        score = datos.at(n++).toInt();
+    }
 
-    timer_bus = new QTimer();
-    time2 = datos.at(n++).toInt();
+    else
+    {
+        cargraf = new Cuerpograf(0, 440, 0, 0, picture = ":/carro_2.png", 130, 55);
+        vida = 5;
+        score = 0;
+    }
+
+    cargraf->set_pos();
+    scene->addItem(cargraf);
+    scene->setFocusItem(cargraf);
+    scene->setSceneRect(cargraf->getCuerpo()->getPx()-50, 0, 1000, 500);
+
+    ui->vidas->display(vida);
+    ui->puntos->display(score);
+
+}
+
+
+//TIMERS / DIFICULTAD**
+
+void juego::timers()
+{
+    QString RUTA = "";
+
+    if (nivel == 1)
+    {
+        RUTA = "nivel_1.txt";
+        QPixmap string (":/FondoUDEA.jpg");
+        ui->label->setPixmap(string);
+    }
+
+    if (nivel == 2)
+    {
+        RUTA = "nivel_2.txt";
+        QPixmap string (":/fondo3.jpg");
+        ui->label->setPixmap(string);
+    }
+
+    if (nivel == 3)
+    {
+        RUTA = "nivel_3.txt";
+    }
+
+    //LEER ARCHIVO **
+
+    QString line;
+    QFile file(RUTA);
+    file.open(QIODevice::ReadOnly);
+    line = file.readLine();
+    file.close();
+
+    QList<QString> datos;
+
+    int n=0;
+
+    while(n>=0)
+    {
+        n = line.indexOf(" ");
+        if(n!=0)
+        {
+            datos.append(line.left(n));
+        }
+        line = line.remove(0,n+1);
+    }
+
+    n = 0;
+
+    //ASIGNAR DATOS **
+
+    time1 = datos.at(n++).toInt();      //Timer bolas.
+    time2 = datos.at(n++).toInt();      //Timer buses.
+}
+
+//GUARDAR PARTIDA **
+
+void juego::save()
+{
+    QFile file(RUTA_ARCHIVO);
+    file.open(QIODevice::WriteOnly);
+    QTextStream out(&file);
+    out<<cargraf->getCuerpo()->getPy()<<" "<<cargraf->getCuerpo()->getPx()<<" "<<vida<<" "<<score;
+
+    file.close();
+}
+
+// STOP TIMERS **
+
+void juego::stop_timers()
+{
+
+    //REMUEVE DE LA ESCENA BOLAS **
+    for (int H = 0; H < _bolas.size(); H++)
+    {
+        scene->removeItem(_bolas.at(H));
+    }
+
+    //REMUEVE DE LA ESCENA BUSES **
+    for(int k=0 ; k < _bus.size() ; k++)
+    {
+        scene->removeItem(_bus.at(k));
+    }
+
+    scene->removeItem(cargraf);
+
+    _bus.clear();
+    _bolas.clear();
+
+    timer->stop();
+    acelerar->stop();
+    timer_bol->stop();
+    son_fondo->stop();
     timer_bus->stop();
-    connect(timer_bus,SIGNAL(timeout()),this,SLOT(bus()));
+    timer_mov->stop();
+    timer_save->stop();
+    timer_score->stop();
+
+}
+
+//TIMER SCORE**
+
+void juego::sumar_score()
+{
+    score++;
+    ui->puntos->display(score);
+}
+
+//VOLVER **
+
+void juego::volver()
+{
+    menu *_menu = new menu();
+    if (control == 3) _menu->setModo(2);
+    _menu->show();
+    close();
+}
+
+void juego::on_pushButton_clicked()
+{
+    save();
 }
 
 int juego::getControl() const
@@ -434,6 +495,13 @@ int juego::getNivel() const
 void juego::setNivel(int value)
 {
     nivel = value;
+}
+
+
+
+void juego::setCargar(int value)
+{
+    cargar = value;
 }
 
 juego::~juego()

@@ -3,6 +3,8 @@
 
 #include <QWidget>
 
+#include "menu.h"
+
 namespace Ui {
 class modo;
 }

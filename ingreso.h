@@ -4,8 +4,9 @@
 #include <QWidget>
 #include <QGraphicsScene>
 
-#include "menu.h"
 #include <QFile>
+
+#include "modo.h"
 
 namespace Ui {
 class ingreso;
@@ -16,11 +17,9 @@ class ingreso : public QWidget
     Q_OBJECT
 
 public:
+
     explicit ingreso(QWidget *parent = 0);
     ~ingreso();
-
-    int modo() const;
-    void setModo(int modo);
 
 private slots:
 
@@ -29,11 +28,8 @@ private slots:
 private:
 
     Ui::ingreso *ui;
-    QString intento, rpta = "d";
-
-    int _modo = 0;
-
-    menu *menu_juego;
+    QList<QString> datos;
+    QString usuario, int_usuario, contrasena, int_contrasena;
 
 };
 
