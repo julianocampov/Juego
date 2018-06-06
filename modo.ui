@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>300</height>
+    <height>324</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,30 +16,100 @@
   <widget class="QPushButton" name="uno">
    <property name="geometry">
     <rect>
-     <x>110</x>
-     <y>70</y>
-     <width>181</width>
-     <height>71</height>
+     <x>99</x>
+     <y>100</y>
+     <width>200</width>
+     <height>70</height>
     </rect>
    </property>
    <property name="text">
-    <string>SINGLEPLAYER</string>
+    <string/>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
    </property>
   </widget>
   <widget class="QPushButton" name="dos">
    <property name="geometry">
     <rect>
-     <x>110</x>
-     <y>170</y>
-     <width>181</width>
-     <height>71</height>
+     <x>100</x>
+     <y>180</y>
+     <width>200</width>
+     <height>70</height>
     </rect>
    </property>
    <property name="text">
-    <string>MULTIPLAYER</string>
+    <string/>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
    </property>
   </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>411</width>
+     <height>331</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="imagen.qrc">:/fondo_multi.jpg</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>100</y>
+     <width>200</width>
+     <height>70</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="imagen.qrc">:/singleplayerp.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>180</y>
+     <width>200</width>
+     <height>70</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="imagen.qrc">:/multiplayerp.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <zorder>label</zorder>
+  <zorder>label_3</zorder>
+  <zorder>label_2</zorder>
+  <zorder>uno</zorder>
+  <zorder>dos</zorder>
  </widget>
- <resources/>
+ <resources>
+  <include location="imagen.qrc"/>
+ </resources>
  <connections/>
 </ui>

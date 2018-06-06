@@ -23,6 +23,9 @@ public:
     void setPicture(const QString &value);
     void set_pos();
 
+    void actualizar_x();
+    void actualizar_y();
+
 private:
 
     Cuerpo *cuer;

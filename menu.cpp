@@ -6,6 +6,8 @@ menu::menu(QWidget *parent) :
     ui(new Ui::menu)
 {
     ui->setupUi(this);
+    click = new QMediaPlayer();
+    click->setMedia(QUrl("qrc:/s/click_2.mp3"));
 }
 
 
@@ -21,6 +23,7 @@ void menu::on_pushButton_clicked()
 
     escena->show();
 
+    click->play();
     close();
 }
 
@@ -36,6 +39,7 @@ void menu::on_pushButton_2_clicked()
 
     escena->show();
 
+    click->play();
     close();
 }
 
@@ -50,6 +54,7 @@ void menu::on_pushButton_3_clicked()
 
     escena->show();
 
+    click->play();
     close();
 }
 
@@ -65,6 +70,7 @@ int menu::getModo() const
 
 void menu::on_pushButton_4_clicked()
 {
+    click->play();
     cargar = 1;
 }
 
@@ -73,6 +79,7 @@ void menu::on_pushButton_5_clicked()
     modo *modo_new = new modo();
     modo_new->show();
 
+    click->play();
     close();
 }
 

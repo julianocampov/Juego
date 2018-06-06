@@ -2,6 +2,7 @@
 #define MODO_H
 
 #include <QWidget>
+#include <QMediaPlayer>
 
 #include "menu.h"
 
@@ -26,6 +27,7 @@ private slots:
 private:
 
     Ui::modo *ui;
+    QMediaPlayer * click;
 
 };
 

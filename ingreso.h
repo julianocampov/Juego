@@ -2,6 +2,7 @@
 #define INGRESO_H
 
 #include <QWidget>
+#include <QMediaPlayer>
 #include <QGraphicsScene>
 
 #include <QFile>
@@ -30,6 +31,7 @@ private:
     Ui::ingreso *ui;
     QList<QString> datos;
     QString usuario, int_usuario, contrasena, int_contrasena;
+    QMediaPlayer * click;
 
 };
 

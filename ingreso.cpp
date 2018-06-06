@@ -8,7 +8,11 @@ ingreso::ingreso(QWidget *parent) :
     ui(new Ui::ingreso)
 {   
     ui->setupUi(this);
-    //ui->label->setText("UNIVERSITY RACE");
+    this->setWindowTitle("University Race");
+
+    click = new QMediaPlayer();
+    click->setMedia(QUrl("qrc:/s/click_2.mp3"));
+
 
     QString line;
 
@@ -39,7 +43,6 @@ ingreso::ingreso(QWidget *parent) :
     usuario = datos.at(n++);
     contrasena = datos.at(n++);
 
-
     ui->error->setVisible(false);
 }
 
@@ -49,6 +52,7 @@ void ingreso::on_pushButton_clicked()
 
     int_usuario = ui->rspta_usuario->text();
     int_contrasena = ui->rspta_contrasena->text();
+    click->play();
 
     if (int_usuario == usuario && int_contrasena == contrasena)
     {

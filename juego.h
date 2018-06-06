@@ -35,6 +35,7 @@ public slots:
     void save();
     void bolas();
     void imagen();
+    void gasolina();
     void stop_timers();
     void sumar_score();
     void cargar_partida();
@@ -57,11 +58,14 @@ public:
 
     void setCargar(int value);
 
+    void colision_bus(Cuerpograf *bus);
+    void colision_bola(Cuerpograf *bola);
+
 private slots:
 
-    void on_lcdNumber_overflow();
-
     void on_pushButton_clicked();
+
+    void on_pushButton_2_clicked();
 
 private:
 
@@ -74,7 +78,7 @@ private:
     int score = 0;
     int nivel = 0;
     int vida = 5;
-    int cont_imagen = 3;
+    int cont_imagen = 4;
 
     int puntaje_jugador = 0;
 
@@ -93,9 +97,13 @@ private:
     QTimer * timer_mov;             //Timer parabolico.
     QTimer * timer_bol;             //Timer generar bolas cayendo.
     QTimer * timer_bus;             //Timer buses.
-    QTimer * timer_score;           //Timer score.
+    QTimer * timer_gas;             //Timer gasolina.
     QTimer * timer_save;            //Timer guardar.
+    QTimer * timer_coli;            //Timer colisión;
+    QTimer * timer_score;           //Timer score.
     QTimer * timer_images;          //Timer mov imagen.
+
+    QMediaPlayer * click;
 
     QString picture;                //Seleccionar imagenes respectivas.
     QMessageBox caja;
@@ -103,6 +111,7 @@ private:
     QGraphicsScene * scene;         //Escena;
     QList < Cuerpograf * > _bus;    //Buses moviendose, obstaculos.
     QList < Cuerpograf * > _bolas;  //Bolas cayendo, obstaculos.
+    QList < Cuerpograf * > _gas;    //Gas BONUS.
 
 };
 

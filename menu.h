@@ -2,6 +2,7 @@
 #define MENU_H
 
 #include <QWidget>
+#include <QMediaPlayer>
 #include <QGraphicsScene>
 #include <QGraphicsItem>
 
@@ -44,6 +45,8 @@ private slots:
 private:
 
     Ui::menu *ui;
+    QMediaPlayer * click;
+
 
     int _modo = 0;
     int cargar = 0;

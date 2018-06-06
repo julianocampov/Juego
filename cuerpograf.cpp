@@ -25,6 +25,18 @@ void Cuerpograf::set_pos()
     setPos(cuer->getPx(),cuer->getPy());
 }
 
+void Cuerpograf::actualizar_x()
+{
+    cuer->velocidad_X();
+    setPos(cuer->getPx(), cuer->getPy());
+}
+
+void Cuerpograf::actualizar_y()
+{
+    cuer->velocidad_Y();
+    setPos(cuer->getPx(), cuer->getPy());
+}
+
 
 Cuerpo *Cuerpograf::getCuerpo()
 {

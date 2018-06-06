@@ -43,8 +43,17 @@ juego::juego(QWidget *parent) :
     connect(timer_score,SIGNAL(timeout()),this,SLOT(sumar_score()));
 
     timer_images = new QTimer();
-    timer_images->start(10);
+    timer_images->stop();
     connect(timer_score,SIGNAL(timeout()),this,SLOT(imagen()));
+
+    timer_gas = new QTimer();
+    timer_gas->stop();
+    connect(timer_gas,SIGNAL(timeout()),this,SLOT(gasolina()));
+
+//    timer_coli = new QTimer();
+//    timer_coli->start(20);
+//    connect(timer_gas,SIGNAL(timeout()),this,SLOT(colision()));
+
 
     //FIN TIMERS **
 
@@ -57,10 +66,14 @@ juego::juego(QWidget *parent) :
 
     claxon = new QMediaPlayer(this);
     claxon->setMedia(QUrl("qrc:/s/claxon.mp3"));
-    claxon->setVolume(60);
+    claxon->setVolume(40);
 
     son_fondo = new QMediaPlayer(this);
     son_fondo->setMedia(QUrl("qrc:/s/takeon.mp3"));
+    son_fondo->setVolume(50);
+
+    click = new QMediaPlayer();
+    click->setMedia(QUrl("qrc:/s/click_2.mp3"));
 
     srand(time(NULL));
 }
@@ -74,17 +87,19 @@ void juego::keyPressEvent(QKeyEvent *event)
         {
             timer->start(10);
             timer_mov->start(30);
+            timer_gas->start(5000);
             timer_save->start(3000);
             timer_score->start(100);
             timer_bol->start(time1);
             timer_bus->start(time2);
+
             son_fondo->play();
 
             inicio = false;
         }
 
         //acelerar->play();
-
+        timer_images->start(10);
         cargraf->getCuerpo()->aceleracion();
     }
 
@@ -128,60 +143,17 @@ void juego::caer()
     //BOLAS **
     for (int i = 0; i < _bolas.size(); i++)
     {
-        _bolas.at(i)->getCuerpo()->velocidad_Y();
-        _bolas.at(i)->set_pos();
-    }
-
-    //COLISIÓN BOLAS **
-    for (int j = 0; j < _bolas.size(); j++)
-    {
-        if(cargraf->collidesWithItem(_bolas.at(j)))
-        {
-             scene->removeItem(_bolas.at(j));
-            _bolas.removeOne(_bolas.at(j));
-            _bolas.append(new Cuerpograf(0,0,0,0, picture = "", 1, 1));
-            vida--;
-            ui->vidas->display(vida);
-        }
-    }
-
-    //REMUEVE DE LA ESCENA BOLAS **
-    for (int H = 0; H < _bolas.size(); H++)
-    {
-        if(_bolas.at(H)->getCuerpo()->getPy() > 550)
-        {
-            scene->removeItem(_bolas.at(H));
-        }
+        _bolas.at(i)->actualizar_y();
+        colision_bola(_bolas.at(i));
     }
 
     //BUSES **
     for (int X = 0; X < _bus.size(); X++)
     {
-        _bus.at(X)->getCuerpo()->velocidad_X();
-        _bus.at(X)->set_pos();
+        _bus.at(X)->actualizar_x();
+        colision_bus(_bus.at(X));
     }
 
-    //COLISIÓN BUSES **
-    for(int Y = 0 ; Y < _bus.size() ; Y++)
-    {
-        if(cargraf->collidesWithItem(_bus.at(Y)))
-        {
-            scene->removeItem(_bus.at(Y));
-            _bus.removeOne(_bus.at(Y));
-            _bus.append(new Cuerpograf(cargraf->getCuerpo()->getPx()+600, 600,0,0, picture = "", 1, 1));
-            vida--;
-            ui->vidas->display(vida);
-        }
-    }
-
-    //REMUEVE DE LA ESCENA BUSES **
-    for(int k=0 ; k < _bus.size() ; k++)
-    {
-        if(_bus.at(k)->getCuerpo()->getPx()<=-20)
-        {
-            scene->removeItem(_bus.at(k));
-        }
-    }
 }
 
 //GENERAR BOLAS**
@@ -190,29 +162,62 @@ void juego::bolas()
 {
     float pos = 400 + rand()% (1000-400);
 
-    _bolas.append(new Cuerpograf(0,0,0,0, picture = ":/rocap.png", 60, 60));
+    _bolas.append(new Cuerpograf(0,0,0,0, picture = "", 50, 50));
+    if (nivel == 1) _bolas.last()->setPicture(":/rocap.png");
+    if (nivel == 2) _bolas.last()->setPicture(":/bola20.png");
+    if (nivel == 3) _bolas.last()->setPicture(":/iceball.png");
     _bolas.last()->getCuerpo()->setValores(cargraf->getCuerpo()->getPx()+pos, 0, 0, 0);
     _bolas.last()->set_pos();
 
     scene->addItem(_bolas.last());
 }
 
-void juego::imagen()
+
+void juego::gasolina()
 {
-    if (cont_imagen >= 0)
+    float pos_x = 500 +rand()% (2000-500);
+    float pos_y = 270 + rand()% (440-270);
+
+    //_gas.append(new Cuerpograf(0, 0, 0, 0, picture = ":/" ));
+
+}
+
+//COLISION BUS **
+
+void juego::colision_bus(Cuerpograf *bus)
+{
+    if(cargraf->collidesWithItem(bus))
     {
-        if(cont_imagen == 3) cargraf->setPicture(":/carro_2.png");
-
-        if(cont_imagen == 2) cargraf->setPicture(":/carro_2(1).png");
-
-        if(cont_imagen == 1) cargraf->setPicture(":/carro_2(2).png");
-
-        if(cont_imagen == 0) cargraf->setPicture(":/carro_2(3).png");
+        scene->removeItem(bus);
+        _bus.removeOne(bus);
+        _bus.append(new Cuerpograf(0, 0, 0, 0, picture = "", 0, 0));
+        vida--;
+        ui->vidas->display(vida);
     }
-    else cont_imagen = 3;
 
-    cont_imagen--;
+    else if(bus->getCuerpo()->getPx()<=-20)
+    {
+        scene->removeItem(bus);
+    }
+}
 
+//COLISIÓN BOLAS **
+
+void juego::colision_bola(Cuerpograf *bola)
+{
+    if(cargraf->collidesWithItem(bola))
+    {
+        scene->removeItem(bola);
+        _bolas.removeOne(bola);
+        _bolas.append(new Cuerpograf(0,0,0,0, picture = "", 0, 0));
+        vida--;
+        ui->vidas->display(vida);
+    }
+
+    else if(bola->getCuerpo()->getPy() > 550)
+    {
+        scene->removeItem(bola);
+    }
 }
 
 
@@ -229,7 +234,7 @@ void juego::bus()
      scene->addItem(_bus.last());
 }
 
-//TIMER **
+//TIMER MOVE **
 
 void juego::move()
 {
@@ -238,7 +243,11 @@ void juego::move()
        cargraf->getCuerpo()->setVx(cargraf->getCuerpo()->getVx()-0.5);
     }
 
-    if (cargraf->getCuerpo()->getVx() < 1) flag = false;
+    if (cargraf->getCuerpo()->getVx() < 1)
+    {
+        flag = false;
+        timer_images->stop();
+    }
 
     if (vida == 0)
     {
@@ -247,18 +256,22 @@ void juego::move()
         if(control == 2)
         {
             cargraf->getCuerpo()->setValores(0, 440, 0, 0);
-            cargraf->setPicture(picture = ":/carro_1.png");
+            cargraf->setPicture(":/carro_1.png");
             cargraf->set_pos();
+            //scene->addItem(cargraf);
+
+            cont_imagen = 4;
+
+            stop_timers();
 
             vida = 5;
             ui->vidas->display(vida);
 
+            puntaje_jugador = score;
+
             score = 0;
             ui->puntos->display(score);
 
-            stop_timers();
-
-            puntaje_jugador = score;
             inicio = true;
             control++;
         }
@@ -328,10 +341,9 @@ void juego::cargar_partida()
 
     n = 0;
 
-    if (datos.at(2).toInt() != 0 && cargar == 1)
+    if (datos.at(0).toInt() != 0 && cargar == 1)
     {
-        n++;
-        cargraf = new Cuerpograf(0, datos.at(n++).toFloat(), 0, 0, picture = ":/carro_2.png", 130, 55);
+        cargraf = new Cuerpograf(0, 440, 0, 0, picture = ":/carro_2.png", 130, 55);
         vida = datos.at(n++).toInt();
         score = datos.at(n++).toInt();
     }
@@ -354,6 +366,41 @@ void juego::cargar_partida()
 }
 
 
+// CAMBIO DE IMAGEN **
+
+void juego::imagen()
+{
+    if (cont_imagen >= 0 && control != 3)
+    {
+        if(cont_imagen == 4) cargraf->setPicture(":/carro_2.png");
+
+        if(cont_imagen == 3) cargraf->setPicture(":/carro_2(1).png");
+
+        if(cont_imagen == 3) cargraf->setPicture(":/carro_2(1,5).png");
+
+        if(cont_imagen == 1) cargraf->setPicture(":/carro_2(2).png");
+
+        if(cont_imagen == 0) cargraf->setPicture(":/carro_2(3).png");
+    }
+
+    else if (cont_imagen >= 0 && control == 3)
+    {
+        if(cont_imagen == 4) cargraf->setPicture(":/carro_1.png");
+
+        if(cont_imagen == 3) cargraf->setPicture(":/carro_1(1).png");
+
+        if(cont_imagen == 3) cargraf->setPicture(":/carro_1(1,5).png");
+
+        if(cont_imagen == 1) cargraf->setPicture(":/carro_1(2).png");
+
+        if(cont_imagen == 0) cargraf->setPicture(":/carro_1(3).png");
+    }
+
+    else cont_imagen = 4;
+
+    cont_imagen--;
+}
+
 //TIMERS / DIFICULTAD**
 
 void juego::timers()
@@ -370,13 +417,27 @@ void juego::timers()
     if (nivel == 2)
     {
         RUTA = "nivel_2.txt";
-        QPixmap string (":/fondo3.jpg");
+        QPixmap string (":/fondo_2.jpg");
         ui->label->setPixmap(string);
     }
 
     if (nivel == 3)
     {
         RUTA = "nivel_3.txt";
+//        QSize size(200, 200);
+//        QMovie *movie = new QMovie(":/tornado.gif");
+//        movie->setScaledSize(size);
+//        ui->torn->setMovie(movie);
+//        movie->start();
+
+        QSize size_2(500, 300);
+        QMovie *movie_2 = new QMovie(":/cloud rain.gif");
+        movie_2->setScaledSize(size_2);
+        ui->storm->setMovie(movie_2);
+        movie_2->start();
+
+        QPixmap string (":/fondo3.png");
+        ui->label->setPixmap(string);
     }
 
     //LEER ARCHIVO **
@@ -416,7 +477,7 @@ void juego::save()
     QFile file(RUTA_ARCHIVO);
     file.open(QIODevice::WriteOnly);
     QTextStream out(&file);
-    out<<cargraf->getCuerpo()->getPy()<<" "<<cargraf->getCuerpo()->getPx()<<" "<<vida<<" "<<score;
+    out<<vida<<" "<<score;
 
     file.close();
 }
@@ -438,12 +499,13 @@ void juego::stop_timers()
         scene->removeItem(_bus.at(k));
     }
 
-    scene->removeItem(cargraf);
+    //scene->removeItem(cargraf);
 
     _bus.clear();
     _bolas.clear();
 
     timer->stop();
+    claxon->stop();
     acelerar->stop();
     timer_bol->stop();
     son_fondo->stop();
@@ -451,6 +513,7 @@ void juego::stop_timers()
     timer_mov->stop();
     timer_save->stop();
     timer_score->stop();
+    timer_images->stop();
 
 }
 
@@ -477,6 +540,13 @@ void juego::on_pushButton_clicked()
     save();
 }
 
+void juego::on_pushButton_2_clicked()
+{
+    save();
+    stop_timers();
+    volver();
+}
+
 int juego::getControl() const
 {
     return control;
@@ -498,13 +568,28 @@ void juego::setNivel(int value)
 }
 
 
-
 void juego::setCargar(int value)
 {
     cargar = value;
 }
 
+
 juego::~juego()
 {
+
+    delete timer;                 //Timer oficial.
+    delete timer_mov;             //Timer parabolico.
+    delete timer_bol;             //Timer generar bolas cayendo.
+    delete timer_bus;             //Timer buses.
+    delete timer_gas;             //Timer gasolina.
+    delete timer_save;            //Timer guardar.
+    delete timer_coli;            //Timer colisión;
+    delete timer_score;           //Timer score.
+    delete timer_images;          //Timer mov imagen.
+
+    delete cargraf;            //Carro principal.
+    delete scene;         //Escena;
+
     delete ui;
 }
+

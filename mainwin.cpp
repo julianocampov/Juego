@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     QSplashScreen *plash = new QSplashScreen;
-    plash->setPixmap(QPixmap(":/inicio.png"));
+    plash->setPixmap(QPixmap(":/carro_2.png"));
     plash->show();
     ingreso *w = new ingreso();
 
