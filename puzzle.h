@@ -52,10 +52,9 @@ private:
 
     QMessageBox caja;
 
+    int win = 0;
     int cont = 0;
     int vida = 5;
-    int clic_b = 0;
-    int win = 0;
 
     bool flag = true;
     bool flagB = false;
@@ -69,13 +68,6 @@ private:
     bool ima_6 = true;
     bool ima_7 = true;
     bool ima_8 = true;
-
-
-    bool control_1 = true;
-    bool control_2 = true;
-    bool control_3 = true;
-    bool control_4 = true;
-
 
     int imagen_1 = 1;
     int imagen_2 = 2;

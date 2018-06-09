@@ -17,7 +17,7 @@ puzzle::puzzle(QWidget *parent) :
     ui->im_6->setVisible(false);
 
     play = new QTimer();
-    play->start(800);
+    play->start(30);
     connect(play,SIGNAL(timeout()), this, SLOT(jugar()));
 }
 
@@ -25,33 +25,38 @@ void puzzle::jugar()
 {
     if(cont == 2)
     {
-        if(imagen_1 == imagen_7 && control_1)
+        qDebug()<<"entre";
+        if(imagen_1 == imagen_7)
         {
             ima_1 = ima_7 = false;
             flag_vida = false;
-            control_1 = false;
+            ui->IMAGEN_1->deleteLater();
+            ui->IMAGEN_7->deleteLater();
             win++;
         }
-        if(imagen_2 == imagen_6 && control_2)
+        if(imagen_2 == imagen_6)
         {
             ima_2 = ima_6 = false;
             flag_vida = false;
-            control_2 = false;
+            ui->IMAGEN_2->deleteLater();
+            ui->IMAGEN_6->deleteLater();
             win++;
         }
-        if(imagen_5 == imagen_8 && control_3)
+        if(imagen_5 == imagen_8)
         {
             ima_5 = ima_8 = false;
             flag_vida = false;
-            control_3 = false;
+            ui->IMAGEN_5->deleteLater();
+            ui->IMAGEN_8->deleteLater();
             win++;
         }
 
-        if(imagen_3 == imagen_4 && control_4)
+        if(imagen_3 == imagen_4)
         {
             ima_3 = ima_4 = false;
             flag_vida = false;
-            control_4 = false;
+            ui->IMAGEN_3->deleteLater();
+            ui->IMAGEN_4->deleteLater();
             win++;
         }
 
@@ -64,10 +69,11 @@ void puzzle::jugar()
         flag_vida = true;
         cont = 0;
         start();
-    }
 
-    if(cont > 3)
+    }
+    if(cont >= 3)
     {
+        qDebug()<<"si";
         cont = 2;
     }
 
@@ -92,6 +98,7 @@ void puzzle::jugar()
         modo_juego->show();
         close();
     }
+    qDebug()<<cont;
 }
 
 void puzzle::on_IMAGEN_1_clicked()
@@ -191,6 +198,8 @@ void puzzle::start()
     imagen_4 = 4;
     imagen_5 = 5;
     imagen_6 = 6;
+    imagen_7 = 7;
+    imagen_8 = 8;
 
     if(ima_1)
     {
@@ -243,31 +252,40 @@ void puzzle::start()
 
 void puzzle::reinicio()
 {
-    imagen_1 = 1;
-    imagen_2 = 2;
-    imagen_3 = 3;
-    imagen_4 = 4;
-    imagen_5 = 5;
-    imagen_6 = 6;
+    puzzle *new_puz = new puzzle();
+    new_puz->show();
+    play->stop();
+    vida=5;
+    close();
+//    imagen_1 = 1;
+//    imagen_2 = 2;
+//    imagen_3 = 3;
+//    imagen_4 = 4;
+//    imagen_5 = 5;
+//    imagen_6 = 6;
+//    imagen_7 = 7;
+//    imagen_8 = 8;
 
-    vida = 5;
-    ui->vidas->display(vida);
+//    vida = 5;
+//    ui->vidas->display(vida);
 
-    ui->im_1->setVisible(false);
-    ui->im_2->setVisible(false);
-    ui->im_3->setVisible(false);
-    ui->im_4->setVisible(false);
-    ui->im_5->setVisible(false);
-    ui->im_6->setVisible(false);
+//    ui->im_1->setVisible(false);
+//    ui->im_2->setVisible(false);
+//    ui->im_3->setVisible(false);
+//    ui->im_4->setVisible(false);
+//    ui->im_5->setVisible(false);
+//    ui->im_6->setVisible(false);
 
-    ui->in_1->setVisible(true);
-    ui->in_2->setVisible(true);
-    ui->in_3->setVisible(true);
-    ui->in_4->setVisible(true);
-    ui->in_5->setVisible(true);
-    ui->in_6->setVisible(true);
-    ui->in_7->setVisible(true);
-    ui->in_8->setVisible(true);
+//    ui->in_1->setVisible(true);
+//    ui->in_2->setVisible(true);
+//    ui->in_3->setVisible(true);
+//    ui->in_4->setVisible(true);
+//    ui->in_5->setVisible(true);
+//    ui->in_6->setVisible(true);
+//    ui->in_7->setVisible(true);
+//    ui->in_8->setVisible(true);
+
+//    cont = 0;
 }
 
 puzzle::~puzzle()
@@ -277,6 +295,7 @@ puzzle::~puzzle()
 
 void puzzle::sumar()
 {
+    qDebug()<<"siiiii";
     cont++;
 }
 
