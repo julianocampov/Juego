@@ -30,7 +30,8 @@ SOURCES += \
     menu.cpp \
     juego.cpp \
     ingreso.cpp \
-    modo.cpp
+    modo.cpp \
+    puzzle.cpp
 
 HEADERS += \
     cuerpo.h \
@@ -38,13 +39,15 @@ HEADERS += \
     menu.h \
     juego.h \
     ingreso.h \
-    modo.h
+    modo.h \
+    puzzle.h
 
 FORMS += \
     menu.ui \
     juego.ui \
     ingreso.ui \
-    modo.ui
+    modo.ui \
+    puzzle.ui
 
 RESOURCES += \
     imagen.qrc

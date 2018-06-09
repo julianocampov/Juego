@@ -2,12 +2,13 @@
 #define INGRESO_H
 
 #include <QWidget>
+#include <QMessageBox>
 #include <QMediaPlayer>
 #include <QGraphicsScene>
 
 #include <QFile>
 
-#include "modo.h"
+#include "puzzle.h"
 
 namespace Ui {
 class ingreso;
@@ -32,6 +33,7 @@ private:
     QList<QString> datos;
     QString usuario, int_usuario, contrasena, int_contrasena;
     QMediaPlayer * click;
+    QMessageBox caja;
 
 };
 

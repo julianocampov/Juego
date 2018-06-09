@@ -56,8 +56,17 @@ void ingreso::on_pushButton_clicked()
 
     if (int_usuario == usuario && int_contrasena == contrasena)
     {
-        modo *modo_juego = new modo();
-        modo_juego->show();
+        QString texto = "BIENVENIDO A UNIVERSITY RACE! Pasa el siguiente puzzle para jugar, SUERTE!";
+        QSpacerItem* horizontal = new QSpacerItem(500, 0, QSizePolicy::Minimum, QSizePolicy::Expanding);
+        caja.setText(texto);
+        QGridLayout* layout = (QGridLayout*)caja.layout();
+        layout->addItem(horizontal, layout->rowCount(), 0, 1, layout->columnCount());
+        caja.setStandardButtons(QMessageBox::Close);
+        caja.setDefaultButton(QMessageBox::Close);
+        caja.exec();
+
+        puzzle *puzzle_juego = new puzzle();
+        puzzle_juego->show();
         close();
     }
     else

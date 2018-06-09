@@ -16,6 +16,8 @@ juego::juego(QWidget *parent) :
     ui->setupUi(this);
     scene = new QGraphicsScene(X, Y, W, H);
 
+    this->setWindowTitle("University Race");
+
     //TIMERS **
 
     timer_bol= new QTimer();
@@ -108,6 +110,11 @@ void juego::keyPressEvent(QKeyEvent *event)
         cargraf->getCuerpo()->setVy(-120);
     }
 
+    if(event->key() == Qt::Key_A)
+    {
+
+    }
+
     if(event->key()==Qt::Key_A)
     {
         cargraf->getCuerpo()->setVx(cargraf->getCuerpo()->getVx()*0.5);
@@ -162,7 +169,7 @@ void juego::bolas()
 {
     float pos = 400 + rand()% (1000-400);
 
-    _bolas.append(new Cuerpograf(0,0,0,0, picture = "", 50, 50));
+    _bolas.append(new Cuerpograf(0,0,0,0, picture = "", 45, 45));
     if (nivel == 1) _bolas.last()->setPicture(":/rocap.png");
     if (nivel == 2) _bolas.last()->setPicture(":/bola20.png");
     if (nivel == 3) _bolas.last()->setPicture(":/iceball.png");
@@ -227,8 +234,12 @@ void juego::bus()
 {
      float pos = 400 + rand()% (1000-400);
 
-     _bus.append(new Cuerpograf(0,0,0,0, picture = ":/bus.png", 180, 100));
-     _bus.last()->getCuerpo()->setValores(cargraf->getCuerpo()->getPx()+600+pos, 400, 0, 0);
+     _bus.append(new Cuerpograf(0,0,0,0, picture = "", 160, 80));
+     if(nivel == 1) _bus.last()->setPicture(":/camioneta.png");
+     if(nivel == 2) _bus.last()->setPicture(":/police.png");
+     //if(nivel == 3) _bus.last()->setPicture(":/");
+
+     _bus.last()->getCuerpo()->setValores(cargraf->getCuerpo()->getPx()+600+pos, 415, 0, 0);
      _bus.last()->set_pos();
 
      scene->addItem(_bus.last());
@@ -430,11 +441,11 @@ void juego::timers()
 //        ui->torn->setMovie(movie);
 //        movie->start();
 
-        QSize size_2(500, 300);
-        QMovie *movie_2 = new QMovie(":/cloud rain.gif");
-        movie_2->setScaledSize(size_2);
-        ui->storm->setMovie(movie_2);
-        movie_2->start();
+//        QSize size_2(500, 300);
+//        QMovie *movie_2 = new QMovie(":/cloud rain.gif");
+//        movie_2->setScaledSize(size_2);
+//        ui->storm->setMovie(movie_2);
+//        movie_2->start();
 
         QPixmap string (":/fondo3.png");
         ui->label->setPixmap(string);
@@ -537,11 +548,13 @@ void juego::volver()
 
 void juego::on_pushButton_clicked()
 {
+    click->play();
     save();
 }
 
 void juego::on_pushButton_2_clicked()
 {
+    click->play();
     save();
     stop_timers();
     volver();

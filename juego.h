@@ -91,6 +91,7 @@ private:
 
     bool flag = false;
     bool inicio = true;
+    bool flagD = false;
 
 
     QTimer * timer;                 //Timer oficial.

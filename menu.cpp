@@ -8,6 +8,8 @@ menu::menu(QWidget *parent) :
     ui->setupUi(this);
     click = new QMediaPlayer();
     click->setMedia(QUrl("qrc:/s/click_2.mp3"));
+    this->setWindowTitle("Levels");
+
 }
 
 
