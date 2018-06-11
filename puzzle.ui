@@ -179,17 +179,14 @@
   <widget class="QLCDNumber" name="vidas">
    <property name="geometry">
     <rect>
-     <x>190</x>
-     <y>310</y>
+     <x>180</x>
+     <y>320</y>
      <width>51</width>
      <height>51</height>
     </rect>
    </property>
-   <property name="lineWidth">
-    <number>21</number>
-   </property>
    <property name="digitCount">
-    <number>2</number>
+    <number>1</number>
    </property>
   </widget>
   <widget class="QLabel" name="im_1">
@@ -496,7 +493,27 @@
     <bool>true</bool>
    </property>
   </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>300</y>
+     <width>111</width>
+     <height>91</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="imagen.qrc">:/intentos_at.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
   <zorder>fondo</zorder>
+  <zorder>label_2</zorder>
   <zorder>label</zorder>
   <zorder>vidas</zorder>
   <zorder>im_1</zorder>

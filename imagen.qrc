@@ -7,8 +7,9 @@
         <file>click_2.mp3</file>
     </qresource>
     <qresource prefix="/">
+        <file>AMBULANCE.png</file>
+        <file>blanco.jpg</file>
         <file>bola20.png</file>
-        <file>bus.png</file>
         <file>carretera.png</file>
         <file>carro_1(1).png</file>
         <file>carro_1(1,5).png</file>
@@ -20,36 +21,40 @@
         <file>carro_2(2).png</file>
         <file>carro_2(3).png</file>
         <file>carro_2.png</file>
-        <file>FondoUDEA.jpg</file>
-        <file>rocap.png</file>
-        <file>inicio.jpg</file>
-        <file>fondo_2.jpg</file>
-        <file>fondo_multi.jpg</file>
-        <file>singleplayerp.png</file>
-        <file>multiplayerp.png</file>
-        <file>level1p.png</file>
-        <file>level2p.png</file>
-        <file>level3p.png</file>
-        <file>selec.jpg</file>
-        <file>EscUdeA_2.png</file>
-        <file>selectmodop.png</file>
-        <file>loadgamep.png</file>
-        <file>tornado.gif</file>
-        <file>fondo3.png</file>
-        <file>iceball.png</file>
-        <file>loginp.png</file>
-        <file>cloud rain.gif</file>
-        <file>go back.jpg</file>
-        <file>save.jpg</file>
-        <file>camioneta.png</file>
-        <file>police.png</file>
         <file>carro_5.png</file>
+        <file>carro_rojo.png</file>
         <file>carta_1.png</file>
         <file>carta_2.png</file>
         <file>carta_3.png</file>
         <file>carta_4.png</file>
+        <file>EscUdeA_2.png</file>
+        <file>fondo_2.jpg</file>
+        <file>fondo_multi.jpg</file>
         <file>fondo_puzzle.jpg</file>
-        <file>inter.png</file>
+        <file>fondo3.png</file>
+        <file>FondoUDEA.jpg</file>
+        <file>gas.png</file>
+        <file>go back.jpg</file>
+        <file>iceball.png</file>
+        <file>inicio.jpg</file>
+        <file>intentos.png</file>
+        <file>intentos_gran.png</file>
         <file>inter_3.jpg</file>
+        <file>level1p.png</file>
+        <file>level2p.png</file>
+        <file>level3p.png</file>
+        <file>lives.png</file>
+        <file>loadgamep.png</file>
+        <file>loginp.png</file>
+        <file>multiplayerp.png</file>
+        <file>rocap.png</file>
+        <file>save.jpg</file>
+        <file>score.png</file>
+        <file>selec.jpg</file>
+        <file>selectmodop.png</file>
+        <file>singleplayerp.png</file>
+        <file>SWAT.png</file>
+        <file>VPOLICE.png</file>
+        <file>intentos_at.png</file>
     </qresource>
 </RCC>

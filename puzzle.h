@@ -24,31 +24,25 @@ public:
     void reinicio();
 
 public slots:
+
     void jugar();
 
 private slots:
 
     void on_IMAGEN_1_clicked();
-
     void on_IMAGEN_2_clicked();
-
     void on_IMAGEN_3_clicked();
-
     void on_IMAGEN_4_clicked();
-
     void on_IMAGEN_5_clicked();
-
     void on_IMAGEN_6_clicked();
-
     void on_IMAGEN_7_clicked();
-
     void on_IMAGEN_8_clicked();
 
 private:
 
     Ui::puzzle *ui;
-    QTimer *play;
     QTimer *cartas;
+    QTimer *play;
 
     QMessageBox caja;
 

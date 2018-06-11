@@ -30,10 +30,10 @@ private slots:
 private:
 
     Ui::ingreso *ui;
-    QList<QString> datos;
-    QString usuario, int_usuario, contrasena, int_contrasena;
-    QMediaPlayer * click;
     QMessageBox caja;
+    QList<QString> datos;
+    QMediaPlayer * click;
+    QString usuario, int_usuario, contrasena, int_contrasena;
 
 };
 

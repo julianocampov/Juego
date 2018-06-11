@@ -15,6 +15,7 @@
 #include <QGraphicsScene>
 
 
+#include "menu.h"
 #include "cuerpo.h"
 #include "cuerpograf.h"
 
@@ -49,9 +50,9 @@ public:
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
 
+    void timers();
     int getNivel() const;
     void setNivel(int value);
-    void timers();
 
     int getControl() const;
     void setControl(int value);
@@ -59,18 +60,19 @@ public:
     void setCargar(int value);
 
     void colision_bus(Cuerpograf *bus);
+    void colision_gas(Cuerpograf *gas);
     void colision_bola(Cuerpograf *bola);
 
 private slots:
 
     void on_pushButton_clicked();
-
     void on_pushButton_2_clicked();
 
 private:
 
     Ui::juego *ui;
 
+    int cont_imagen = 4;
     int control = 0;
     int cargar = 0;
     int time1 = 0;
@@ -78,20 +80,17 @@ private:
     int score = 0;
     int nivel = 0;
     int vida = 5;
-    int cont_imagen = 4;
 
     int puntaje_jugador = 0;
 
     QMediaPlayer *son_fondo;
-    QMediaPlayer *acelerar;
     QMediaPlayer *claxon;
-
 
     float X,Y,W,H;
 
     bool flag = false;
-    bool inicio = true;
     bool flagD = false;
+    bool inicio = true;
 
 
     QTimer * timer;                 //Timer oficial.
@@ -100,7 +99,6 @@ private:
     QTimer * timer_bus;             //Timer buses.
     QTimer * timer_gas;             //Timer gasolina.
     QTimer * timer_save;            //Timer guardar.
-    QTimer * timer_coli;            //Timer colisión;
     QTimer * timer_score;           //Timer score.
     QTimer * timer_images;          //Timer mov imagen.
 

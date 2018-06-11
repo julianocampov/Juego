@@ -24,7 +24,6 @@ public:
     void jugador();
 
     void setPtos_1(int value);
-
     void setPtos_2(int value);
 
     int getModo() const;
@@ -33,13 +32,9 @@ public:
 private slots:
 
     void on_pushButton_clicked();
-
     void on_pushButton_2_clicked();
-
     void on_pushButton_3_clicked();
-
     void on_pushButton_4_clicked();
-
     void on_pushButton_5_clicked();
 
 private:
@@ -50,7 +45,6 @@ private:
 
     int _modo = 0;
     int cargar = 0;
-
 
 };
 

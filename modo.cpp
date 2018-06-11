@@ -13,6 +13,9 @@ modo::modo(QWidget *parent) :
 }
 
 
+//ESCOGER MODO **
+
+//SINGLEPLAYER **
 void modo::on_uno_clicked()
 {
     menu *ing = new menu();
@@ -23,6 +26,7 @@ void modo::on_uno_clicked()
     close();
 }
 
+//MULTIPLAYER **
 void modo::on_dos_clicked()
 {
     menu *ing = new menu();

@@ -9,6 +9,8 @@ puzzle::puzzle(QWidget *parent) :
 
     ui->vidas->display(vida);
 
+    //TAPA LAS IMAGENES **
+
     ui->im_1->setVisible(false);
     ui->im_2->setVisible(false);
     ui->im_3->setVisible(false);
@@ -19,20 +21,22 @@ puzzle::puzzle(QWidget *parent) :
     play = new QTimer();
     play->start(30);
     connect(play,SIGNAL(timeout()), this, SLOT(jugar()));
+
+    this->setWindowTitle("Puzzle University Race");
 }
 
+//BUSCA SI SON CORRRECTAS LAS CARTAS SELECCIONADAS **
 void puzzle::jugar()
 {
     if(cont == 2)
     {
-        qDebug()<<"entre";
-        if(imagen_1 == imagen_7)
+        if(imagen_1 == imagen_7)            //Son iguales **
         {
-            ima_1 = ima_7 = false;
-            flag_vida = false;
-            ui->IMAGEN_1->deleteLater();
-            ui->IMAGEN_7->deleteLater();
-            win++;
+            ima_1 = ima_7 = false;          //Para que no se tapen las cartas de nuevo.
+            flag_vida = false;              //Para no restar vidas.
+            ui->IMAGEN_1->deleteLater();    //Borra el botón para no generar problemas.
+            ui->IMAGEN_7->deleteLater();    //Borra el botón para no generar problemas.
+            win++;                          //Indica que ya hay una cartas acertadas.
         }
         if(imagen_2 == imagen_6)
         {
@@ -60,26 +64,30 @@ void puzzle::jugar()
             win++;
         }
 
+        //SI NO ACERTÓ **
         if(flag_vida)
         {
             vida--;
             ui->vidas->display(vida);
         }
 
+        //REINICIA CONT Y FLAG_VIDA **
         flag_vida = true;
         cont = 0;
         start();
 
     }
+
+    //SI SE SELECCIONAN MAS DE DOS CARTAS **
     if(cont >= 3)
     {
-        qDebug()<<"si";
         cont = 2;
     }
 
+    //SI PIERDE SE REINICIA TODO **
     if(vida == 0)
     {
-        QString texto = "FALLASTE! Inténtalo de nuevo, SUERTE!";
+        QString texto = "YOU FAILED. Try again, GOOD LUCK!";
         QSpacerItem* horizontal = new QSpacerItem(500, 0, QSizePolicy::Minimum, QSizePolicy::Expanding);
         caja.setText(texto);
         QGridLayout* layout = (QGridLayout*)caja.layout();
@@ -91,6 +99,8 @@ void puzzle::jugar()
         reinicio();
     }
 
+    //PASAR EL PUZZLE, GENERA SELECT MODO **
+
     if(win == 4)
     {
         modo *modo_juego = new modo();
@@ -98,17 +108,18 @@ void puzzle::jugar()
         modo_juego->show();
         close();
     }
-    qDebug()<<cont;
 }
 
+
+//MOSTRAR IMAGENES AL PRESIONAR UN BOTÓN **
 void puzzle::on_IMAGEN_1_clicked()
 {
-    if(cont <= 2){
-        imagen_1 = 0;
-        ui->im_1->setVisible(true);
-        ui->in_1->setVisible(false);
-        ima_1 = true;
-        sumar();
+    if(cont <= 2){                      //Deja mostrar si no se han presionado mas de dos.
+        imagen_1 = 0;                   //Indica que fue seleccionada.
+        ui->im_1->setVisible(true);     //Muestra la imagen.
+        ui->in_1->setVisible(false);    //Quita la de imagen de interrogación.
+        ima_1 = true;                   //Para que no se Tape la imagen.
+        sumar();                        //Suma al contador para indicar que ya hay una ficha seleccionada.
     }
 }
 
@@ -190,8 +201,11 @@ void puzzle::on_IMAGEN_8_clicked()
     }
 }
 
+//REINICIA TODO **
 void puzzle::start()
 {
+    //REINICIA VARIABLES **
+
     imagen_1 = 1;
     imagen_2 = 2;
     imagen_3 = 3;
@@ -201,7 +215,7 @@ void puzzle::start()
     imagen_7 = 7;
     imagen_8 = 8;
 
-    if(ima_1)
+    if(ima_1)                           //Si es false, deja la imagen que es y no muestra la de interrogación.
     {
         ui->im_1->setVisible(false);
         ui->in_1->setVisible(true);
@@ -250,6 +264,8 @@ void puzzle::start()
     }
 }
 
+//SI PIERDE SE EJECUTA DE NUEVO **
+
 void puzzle::reinicio()
 {
     puzzle *new_puz = new puzzle();
@@ -257,35 +273,11 @@ void puzzle::reinicio()
     play->stop();
     vida=5;
     close();
-//    imagen_1 = 1;
-//    imagen_2 = 2;
-//    imagen_3 = 3;
-//    imagen_4 = 4;
-//    imagen_5 = 5;
-//    imagen_6 = 6;
-//    imagen_7 = 7;
-//    imagen_8 = 8;
+}
 
-//    vida = 5;
-//    ui->vidas->display(vida);
-
-//    ui->im_1->setVisible(false);
-//    ui->im_2->setVisible(false);
-//    ui->im_3->setVisible(false);
-//    ui->im_4->setVisible(false);
-//    ui->im_5->setVisible(false);
-//    ui->im_6->setVisible(false);
-
-//    ui->in_1->setVisible(true);
-//    ui->in_2->setVisible(true);
-//    ui->in_3->setVisible(true);
-//    ui->in_4->setVisible(true);
-//    ui->in_5->setVisible(true);
-//    ui->in_6->setVisible(true);
-//    ui->in_7->setVisible(true);
-//    ui->in_8->setVisible(true);
-
-//    cont = 0;
+void puzzle::sumar()
+{
+    cont++;
 }
 
 puzzle::~puzzle()
@@ -293,9 +285,4 @@ puzzle::~puzzle()
     delete ui;
 }
 
-void puzzle::sumar()
-{
-    qDebug()<<"siiiii";
-    cont++;
-}
 
