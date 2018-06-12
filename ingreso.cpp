@@ -9,10 +9,12 @@ ingreso::ingreso(QWidget *parent) :
 {   
     ui->setupUi(this);
     this->setWindowTitle("University Race");
+    this->setWindowIcon(QIcon(":/EscUdeA_2.png"));
 
     //SONIDO CLICK **
     click = new QMediaPlayer();
     click->setMedia(QUrl("qrc:/s/click_2.mp3"));
+
 
     //LEER ARCHIVO PARA USUARIO Y CONTRASEÑA **
 
@@ -54,6 +56,7 @@ void ingreso::on_pushButton_clicked()
     //VERIFICAR USUARIO Y CONTRASEÑA **
     if (int_usuario == usuario && int_contrasena == contrasena)
     {
+        ui->error->setVisible(false);
         QString texto = "WELCOME TO UNIVERSITY RACE. first win the puzzle for play, good luck!";
         QSpacerItem* horizontal = new QSpacerItem(500, 0, QSizePolicy::Minimum, QSizePolicy::Expanding);
         caja.setText(texto);
@@ -61,6 +64,7 @@ void ingreso::on_pushButton_clicked()
         layout->addItem(horizontal, layout->rowCount(), 0, 1, layout->columnCount());
         caja.setStandardButtons(QMessageBox::Close);
         caja.setDefaultButton(QMessageBox::Close);
+        caja.setWindowIcon(QIcon(":/EscUdeA_2.png"));
         caja.exec();
 
         //EJECUTAR EL PUZZLE**

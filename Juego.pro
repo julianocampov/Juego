@@ -50,6 +50,7 @@ FORMS += \
     puzzle.ui
 
 RESOURCES += \
-    imagen.qrc
+    imagen.qrc \
+    sonidos.qrc
 
 DISTFILES +=

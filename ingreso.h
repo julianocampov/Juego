@@ -1,6 +1,7 @@
 #ifndef INGRESO_H
 #define INGRESO_H
 
+#include <QIcon>
 #include <QWidget>
 #include <QMessageBox>
 #include <QMediaPlayer>

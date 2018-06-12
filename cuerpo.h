@@ -22,15 +22,16 @@ public:
     Cuerpo(float _Px,float _Py,float _Vx,float _Vy);
 
     float getPx() const;
-    void setPx(float value);
     float getPy() const;
-    void setPy(float value);
     float getVx() const;
-    void setVx(float value);
     float getVy() const;
-    void setVy(float value);
     float getA() const;
+
+    void setPy(float value);
+    void setVx(float value);
+    void setVy(float value);
     void setA(float value);
+    void setPx(float value);
 
     void setValores(float x,float y, float _Vx, float _Vy);
 

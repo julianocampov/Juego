@@ -12,7 +12,12 @@ juego::juego(QWidget *parent) :
     ui->setupUi(this);
     scene = new QGraphicsScene(X, Y, W, H);
 
+    ui->intrucciones->setVisible(false);
+    ui->close->setVisible(false);
+    ui->_close->setVisible(false);
+
     this->setWindowTitle("University Race");
+    this->setWindowIcon(QIcon(":/EscUdeA_2.png"));
 
     //TIMERS **
 
@@ -58,11 +63,31 @@ juego::juego(QWidget *parent) :
     //SONIDOS **
     claxon = new QMediaPlayer(this);
     claxon->setMedia(QUrl("qrc:/s/claxon.mp3"));
-    claxon->setVolume(40);
+    claxon->setVolume(35);
 
     son_fondo = new QMediaPlayer(this);
     son_fondo->setMedia(QUrl("qrc:/s/takeon.mp3"));
     son_fondo->setVolume(50);
+
+    son_blue = new QMediaPlayer(this);
+    son_blue->setMedia(QUrl("qrc:/s/blue.mp3"));
+    son_blue->setVolume(50);
+
+    son_africa = new QMediaPlayer(this);
+    son_africa->setMedia(QUrl("qrc:/s/africa.mp3"));
+    son_africa->setVolume(50);
+
+    golpe_carro = new QMediaPlayer(this);
+    golpe_carro->setMedia(QUrl("qrc:/s/golpe.mp3"));
+    golpe_carro->setVolume(50);
+
+    golpe_bola = new QMediaPlayer(this);
+    golpe_bola->setMedia(QUrl("qrc:/s/petardo.mp3"));
+    golpe_bola->setVolume(90);
+
+    error = new QMediaPlayer(this);
+    error->setMedia(QUrl("qrc:/s/error.mp3"));
+    error->setVolume(70);
 
     click = new QMediaPlayer();
     click->setMedia(QUrl("qrc:/s/click_2.mp3"));
@@ -73,25 +98,29 @@ juego::juego(QWidget *parent) :
 //LECTURA DE BOTONES **
 void juego::keyPressEvent(QKeyEvent *event)
 {
-    if (event->key()==Qt::Key_D)
-    {
-        if(inicio)                  //Se inicia cuando se acelera por primera vez.
+    if(pause){                          //Si está en modo pausa no deja hacer nada.
+        if (event->key()==Qt::Key_D)
         {
-            timer->start(10);
-            timer_mov->start(30);
-            timer_gas->start(10000);
-            timer_save->start(3000);
-            timer_score->start(100);
-            timer_bol->start(time1);
-            timer_bus->start(time2);
+            if(inicio)                  //Se inicia cuando se acelera por primera vez.
+            {
+                timer->start(10);
+                timer_mov->start(30);
+                timer_gas->start(10000);
+                timer_save->start(3000);
+                timer_score->start(100);
+                timer_bol->start(time1);
+                timer_bus->start(time2);
 
-            son_fondo->play();
+                if(nivel == 1) son_fondo->play();
+                if(nivel == 2) son_blue->play();
+                if(nivel == 3) son_africa->play();
 
-            inicio = false;
+                inicio = false;
+            }
+
+            timer_images->start(10);            //Efecto de movimiento de rudas.
+            cargraf->getCuerpo()->aceleracion();//Modifica la Vx (velocidad en x) del carro.
         }
-
-        timer_images->start(10);            //Efecto de movimiento de rudas.
-        cargraf->getCuerpo()->aceleracion();//Modifica la Vx (velocidad en x) del carro.
     }
 
     //SALTAR**
@@ -192,6 +221,8 @@ void juego::colision_bus(Cuerpograf *bus)
 {
     if(cargraf->collidesWithItem(bus))      //Indica si colisiona.
     {
+        golpe_carro->stop();
+        golpe_carro->play();
         scene->removeItem(bus);             //Remueve el bus de la escena.
         _bus.removeOne(bus);                //Remueve el bus del QList
         _bus.append(new Cuerpograf(0, 0, 0, 0, picture = "", 0, 0));    //Agrega uno nuevo al QList para no generar problemas.
@@ -200,7 +231,7 @@ void juego::colision_bus(Cuerpograf *bus)
     }
 
     //INDICA QUE YA PASÓ DE LA ESCENA Y SE BORRA **
-    else if(bus->getCuerpo()->getPx() <= cargraf->getCuerpo()->getPx()-20 )
+    else if(bus->getCuerpo()->getPx() <= cargraf->getCuerpo()->getPx()-100)
     {
         scene->removeItem(bus);
     }
@@ -229,6 +260,8 @@ void juego::colision_bola(Cuerpograf *bola)
 {
     if(cargraf->collidesWithItem(bola))
     {
+        golpe_bola->stop();
+        golpe_bola->play();
         scene->removeItem(bola);            //Si colisiona con una bola.
         _bolas.removeOne(bola);
         _bolas.append(new Cuerpograf(0,0,0,0, picture = "", 0, 0));
@@ -298,6 +331,9 @@ void juego::move()
 
             puntaje_jugador = score;    //Guarda puntaje 1.
 
+            pause = true;
+            paus = 0;
+
             score = 0;
             ui->puntos->display(score);
 
@@ -308,6 +344,7 @@ void juego::move()
             layout->addItem(horizontal, layout->rowCount(), 0, 1, layout->columnCount());
             caja.setStandardButtons(QMessageBox::Close);
             caja.setDefaultButton(QMessageBox::Close);
+            caja.setWindowIcon(QIcon(":/EscUdeA_2.png"));
             caja.exec();
 
             inicio = true;  //Para iniciar los timers cuando se acelera.
@@ -337,12 +374,14 @@ void juego::move()
                 texto = "YOU SCORE "+QString::number(score);
             }
 
+            error->play();
             QSpacerItem* horizontal = new QSpacerItem(300, 0, QSizePolicy::Minimum, QSizePolicy::Expanding);
             caja.setText(texto);
             QGridLayout* layout = (QGridLayout*)caja.layout();
             layout->addItem(horizontal, layout->rowCount(), 0, 1, layout->columnCount());
             caja.setStandardButtons(QMessageBox::Close);
             caja.setDefaultButton(QMessageBox::Close);
+            caja.setWindowIcon(QIcon(":/EscUdeA_2.png"));
             caja.exec();
 
             volver();       //VUELVE AL MENÚ.
@@ -513,31 +552,51 @@ void juego::save()
 void juego::stop_timers()
 {
 
-    //REMUEVE DE LA ESCENA BOLAS **
-    for (int H = 0; H < _bolas.size(); H++)
+    //SI ES MODO PAUSE NO ELIMINA NADA **
+    if(pause)
     {
-        scene->removeItem(_bolas.at(H));
-    }
+        //REMUEVE DE LA ESCENA BOLAS **
+        for (int H = 0; H < _bolas.size(); H++)
+        {
+            scene->removeItem(_bolas.at(H));
+        }
 
-    //REMUEVE DE LA ESCENA BUSES **
-    for(int k=0 ; k < _bus.size() ; k++)
-    {
-        scene->removeItem(_bus.at(k));
-    }
+        //REMUEVE DE LA ESCENA BUSES **
+        for(int k=0 ; k < _bus.size() ; k++)
+        {
+            scene->removeItem(_bus.at(k));
+        }
 
-    _bus.clear();
-    _bolas.clear();
+        //REMUEVE DE LA ESCENA EL GAS **
+        for(int d = 0; d < _gas.size() ; d++)
+        {
+            scene->removeItem(_gas.at(d));
+        }
+
+        _bus.clear();
+        _gas.clear();
+        _bolas.clear();
+    }
 
     timer->stop();
     claxon->stop();
     timer_bol->stop();
-    son_fondo->stop();
     timer_bus->stop();
     timer_mov->stop();
     timer_save->stop();
+    golpe_carro->stop();
     timer_score->stop();
     timer_images->stop();
 
+    //SONIDOS CUANDO ESTÁ EN MODO PAUSE **
+    if(!pause && nivel == 1) son_fondo->pause();
+    if(!pause && nivel == 2) son_blue->pause();
+    if(!pause && nivel == 3) son_africa->pause();
+
+    //SONIDOS PARA FINALIZAR **
+    if(nivel == 1 && pause) son_fondo->stop();
+    if(nivel == 2 && pause) son_blue->stop();
+    if(nivel == 3 && pause) son_africa->stop();
 }
 
 //TIMER SCORE**
@@ -556,6 +615,24 @@ void juego::volver()
     close();
 }
 
+//PONER EN PAUSA **
+void juego::on_pause_clicked()
+{
+    paus++;
+    if(paus == 1)
+    {
+        pause = false;
+        stop_timers();
+        inicio = true;
+    }
+
+    if(paus == 2)
+    {
+        pause = true;
+        paus = 0;
+    }
+}
+
 //GUARDAR CON BOTÓN SAVE**
 void juego::on_pushButton_clicked()
 {
@@ -572,17 +649,35 @@ void juego::on_pushButton_2_clicked()
     volver();
 }
 
+//INSTRUCCIONES **
+void juego::on_pushButton_3_clicked()
+{
+    pause = false;
+    stop_timers();
+    inicio = true;
+    ui->intrucciones->setVisible(true);
+    ui->close->setVisible(true);
+    ui->_close->setVisible(true);
+}
+
+//CERRAR INSTRUCCIONES **
+void juego::on_close_clicked()
+{
+    pause = true;
+    ui->intrucciones->setVisible(false);
+    ui->close->setVisible(false);
+    ui->_close->setVisible(false);
+}
+
 void juego::setControl(int value)
 {
     control = value;
 }
 
-
 void juego::setNivel(int value)
 {
     nivel = value;
 }
-
 
 void juego::setCargar(int value)
 {
@@ -616,4 +711,5 @@ juego::~juego()
 
     delete ui;
 }
+
 

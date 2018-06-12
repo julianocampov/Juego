@@ -9,6 +9,9 @@ puzzle::puzzle(QWidget *parent) :
 
     ui->vidas->display(vida);
 
+    _cartas = new QMediaPlayer();
+    _cartas->setMedia(QUrl("qrc:/s/cartas.mp3"));
+
     //TAPA LAS IMAGENES **
 
     ui->im_1->setVisible(false);
@@ -22,7 +25,9 @@ puzzle::puzzle(QWidget *parent) :
     play->start(30);
     connect(play,SIGNAL(timeout()), this, SLOT(jugar()));
 
-    this->setWindowTitle("Puzzle University Race");
+
+    this->setWindowTitle("Puzzle 'University Race'");
+    this->setWindowIcon(QIcon(":/EscUdeA_2.png"));
 }
 
 //BUSCA SI SON CORRRECTAS LAS CARTAS SELECCIONADAS **
@@ -94,6 +99,7 @@ void puzzle::jugar()
         layout->addItem(horizontal, layout->rowCount(), 0, 1, layout->columnCount());
         caja.setStandardButtons(QMessageBox::Close);
         caja.setDefaultButton(QMessageBox::Close);
+        caja.setWindowIcon(QIcon(":/EscUdeA_2.png"));
         caja.exec();
 
         reinicio();
@@ -115,6 +121,9 @@ void puzzle::jugar()
 void puzzle::on_IMAGEN_1_clicked()
 {
     if(cont <= 2){                      //Deja mostrar si no se han presionado mas de dos.
+        _cartas->stop();
+        _cartas->play();
+
         imagen_1 = 0;                   //Indica que fue seleccionada.
         ui->im_1->setVisible(true);     //Muestra la imagen.
         ui->in_1->setVisible(false);    //Quita la de imagen de interrogación.
@@ -126,6 +135,9 @@ void puzzle::on_IMAGEN_1_clicked()
 void puzzle::on_IMAGEN_2_clicked()
 {
     if(cont <= 2){
+        _cartas->stop();
+        _cartas->play();
+
         imagen_2 = 0;
         ui->im_2->setVisible(true);
         ui->in_2->setVisible(false);
@@ -137,6 +149,9 @@ void puzzle::on_IMAGEN_2_clicked()
 void puzzle::on_IMAGEN_3_clicked()
 {
     if(cont <= 2){
+        _cartas->stop();
+        _cartas->play();
+
         imagen_3 = 0;
         ui->im_3->setVisible(true);
         ui->in_3->setVisible(false);
@@ -148,6 +163,9 @@ void puzzle::on_IMAGEN_3_clicked()
 void puzzle::on_IMAGEN_4_clicked()
 {
     if(cont <= 2){
+        _cartas->stop();
+        _cartas->play();
+
         imagen_4 = 0;
         ui->im_4->setVisible(true);
         ui->in_4->setVisible(false);
@@ -159,6 +177,9 @@ void puzzle::on_IMAGEN_4_clicked()
 void puzzle::on_IMAGEN_5_clicked()
 {
     if(cont <= 2){
+        _cartas->stop();
+        _cartas->play();
+
        imagen_5 = 0;
        ui->im_5->setVisible(true);
        ui->in_5->setVisible(false);
@@ -171,6 +192,9 @@ void puzzle::on_IMAGEN_5_clicked()
 void puzzle::on_IMAGEN_6_clicked()
 {
     if(cont <= 2){
+        _cartas->stop();
+        _cartas->play();
+
         imagen_6 = 0;
         ui->im_6->setVisible(true);
         ui->in_6->setVisible(false);
@@ -182,6 +206,9 @@ void puzzle::on_IMAGEN_6_clicked()
 void puzzle::on_IMAGEN_7_clicked()
 {
     if(cont <= 2){
+        _cartas->stop();
+        _cartas->play();
+
         imagen_7 = 0;
         ui->im_7->setVisible(true);
         ui->in_7->setVisible(false);
@@ -193,6 +220,9 @@ void puzzle::on_IMAGEN_7_clicked()
 void puzzle::on_IMAGEN_8_clicked()
 {
     if(cont <= 2){
+        _cartas->stop();
+        _cartas->play();
+
         imagen_8 = 0;
         ui->im_8->setVisible(true);
         ui->in_8->setVisible(false);

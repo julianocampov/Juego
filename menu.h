@@ -23,11 +23,11 @@ public:
 
     void jugador();
 
+    void setModo(int value);
     void setPtos_1(int value);
     void setPtos_2(int value);
 
     int getModo() const;
-    void setModo(int value);
 
 private slots:
 

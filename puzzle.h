@@ -44,6 +44,8 @@ private:
     QTimer *cartas;
     QTimer *play;
 
+    QMediaPlayer * _cartas;
+
     QMessageBox caja;
 
     int win = 0;

@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/s">
+        <file>blue.mp3</file>
+        <file>claxon.mp3</file>
+        <file>click_2.mp3</file>
+        <file>error.mp3</file>
+        <file>golpe.mp3</file>
+        <file>takeon.mp3</file>
+        <file>africa.mp3</file>
+        <file>cartas.mp3</file>
+        <file>petardo.mp3</file>
+    </qresource>
+</RCC>

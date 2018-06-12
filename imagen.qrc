@@ -1,11 +1,4 @@
 <RCC>
-    <qresource prefix="/s">
-        <file>ace.mp3</file>
-        <file>claxon.mp3</file>
-        <file>takeon.mp3</file>
-        <file>click.mp3</file>
-        <file>click_2.mp3</file>
-    </qresource>
     <qresource prefix="/">
         <file>AMBULANCE.png</file>
         <file>blanco.jpg</file>
@@ -37,8 +30,6 @@
         <file>go back.jpg</file>
         <file>iceball.png</file>
         <file>inicio.jpg</file>
-        <file>intentos.png</file>
-        <file>intentos_gran.png</file>
         <file>inter_3.jpg</file>
         <file>level1p.png</file>
         <file>level2p.png</file>
@@ -56,5 +47,10 @@
         <file>SWAT.png</file>
         <file>VPOLICE.png</file>
         <file>intentos_at.png</file>
+        <file>instructions.png</file>
+        <file>pause.png</file>
+        <file>University Race1.png</file>
+        <file>close.png</file>
+        <file>instrucciones.png</file>
     </qresource>
 </RCC>

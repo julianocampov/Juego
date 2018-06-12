@@ -9,6 +9,7 @@ menu::menu(QWidget *parent) :
     click = new QMediaPlayer();
     click->setMedia(QUrl("qrc:/s/click_2.mp3"));
     this->setWindowTitle("Levels");
+    this->setWindowIcon(QIcon(":/EscUdeA_2.png"));
 }
 
 //LEVEL 1 **
@@ -87,8 +88,6 @@ int menu::getModo() const
 {
     return _modo;
 }
-
-
 
 menu::~menu()
 {

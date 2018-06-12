@@ -7,6 +7,7 @@ modo::modo(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setWindowTitle("Select modo");
+    this->setWindowIcon(QIcon(":/EscUdeA_2.png"));
 
     click = new QMediaPlayer();
     click->setMedia(QUrl("qrc:/s/click_2.mp3"));

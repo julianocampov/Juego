@@ -51,12 +51,13 @@ public:
     void keyReleaseEvent(QKeyEvent *event);
 
     void timers();
+
     int getNivel() const;
-    void setNivel(int value);
-
     int getControl() const;
-    void setControl(int value);
 
+
+    void setNivel(int value);
+    void setControl(int value);
     void setCargar(int value);
 
     void colision_bus(Cuerpograf *bus);
@@ -67,28 +68,40 @@ private slots:
 
     void on_pushButton_clicked();
     void on_pushButton_2_clicked();
+    void on_pushButton_3_clicked();
+    void on_close_clicked();
+
+    void on_pause_clicked();
 
 private:
 
     Ui::juego *ui;
 
-    int cont_imagen = 4;
-    int control = 0;
-    int cargar = 0;
+    int vida = 5;
+    int paus = 0;
     int time1 = 0;
     int time2 = 0;
     int score = 0;
     int nivel = 0;
-    int vida = 5;
+    int cargar = 0;
+    int control = 0;
+    int cont_imagen = 4;
 
     int puntaje_jugador = 0;
 
-    QMediaPlayer *son_fondo;
-    QMediaPlayer *claxon;
+    QMediaPlayer * error;
+    QMediaPlayer * click;
+    QMediaPlayer * claxon;
+    QMediaPlayer * son_blue;
+    QMediaPlayer * son_fondo;
+    QMediaPlayer * golpe_bola;
+    QMediaPlayer * son_africa;
+    QMediaPlayer * golpe_carro;
 
     float X,Y,W,H;
 
     bool flag = false;
+    bool pause = true;
     bool flagD = false;
     bool inicio = true;
 
@@ -101,8 +114,6 @@ private:
     QTimer * timer_save;            //Timer guardar.
     QTimer * timer_score;           //Timer score.
     QTimer * timer_images;          //Timer mov imagen.
-
-    QMediaPlayer * click;
 
     QString picture;                //Seleccionar imagenes respectivas.
     QMessageBox caja;

@@ -1,7 +1,8 @@
 #include "ingreso.h"
+
+#include <QTimer>
 #include <QApplication>
 #include <QSplashScreen>
-#include <QTimer>
 
 int main(int argc, char *argv[])
 {
